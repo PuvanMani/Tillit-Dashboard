@@ -6,20 +6,19 @@ import save from '../Assets/Images/Completed successfully.png'
 import moment from "moment/moment";
 import { BASE_URL } from '../Config/Config';
 import { LoadingButton } from '@mui/lab';
-import FreeSoloCreateOptionDialog from '../Component/Autocomplete/AddAutocomplete';
-import FashionForm from '../Component/forms/FashionForm'
+import VegitableForm from '../Component/forms/VegitableForm';
+import { DataList } from '../Assets/JSON/List';
+import EggForm from '../Component/forms/EggForm'
 function Catelouge() {
-    const Category = ["Men Fashion", "Women Fashion"]
-    const SubCategory = {
-        "Men Fashion": ["Shirt", "Pant", "Chain", "Ring", "Shorts", "T-Shirt"],
-        "Women Fashion": ["Chudi", "Top", "Neckless", "Ring", "Chain", "T-Shirt"]
-    }
+
     const params = useParams()
-    const [CategoryState, setCategoryState] = useState("");
+    const [Category, setCategory] = useState("");
+    const [Product, setProduct] = useState("");
+
     const [load, setLoad] = useState(false);
 
     const nav = useNavigate()
-    const [taskname, setTaskName] = useState("");
+    const [FilterdData, setFilterdData] = useState([]);
 
 
     const [dial, setDial] = useState(false);
@@ -32,8 +31,17 @@ function Catelouge() {
         endtime: false,
     });
 
-    const TaskData = () => {
-        console.log("dd")
+    const handleChange = (e, value) => {
+        if (value != null) {
+            setCategory(value.Category)
+            let data = DataList.filter(val => value.Category == val.Category)
+            setFilterdData([...data[0].Child])
+            setProduct("")
+        } else {
+            setCategory("")
+            setFilterdData([])
+        }
+
     }
 
 
@@ -70,7 +78,7 @@ function Catelouge() {
                     <Grid item xs={12} md={6}>
                         <InputLabel
                             sx={{
-                                color: "#5E6366",
+                                color: "#085e15",
                                 fontSize: "14px !important",
                                 mb: "8px",
                             }}
@@ -79,29 +87,34 @@ function Catelouge() {
                         </InputLabel>
                         <Autocomplete
                             disablePortal
-                            options={Category}
+                            options={DataList}
+                            value={{ Category }}
+                            getOptionLabel={(option) => option.Category}
                             renderInput={(params) => <TextField {...params} size='small' placeholder='Category' fullWidth />}
-                            onChange={(e, value) => setCategoryState(value)}
+                            onChange={(e, value) => handleChange(e, value)}
                         />
                     </Grid>
                     <Grid item xs={12} md={6}>
                         <InputLabel
                             sx={{
-                                color: "#5E6366",
+                                color: "#085e15",
                                 fontSize: "14px !important",
                                 mb: "8px",
                             }}
                         >
-                            Select Sub Category
+                            Select {Category}
                         </InputLabel>
                         <Autocomplete
                             disablePortal
-                            options={CategoryState == null ? [] : SubCategory[CategoryState]}
-                            renderInput={(params) => <TextField {...params} size='small' placeholder='Category' fullWidth />}
+                            value={Product}
+                            options={FilterdData}
+                            getOptionLabel={(option) => option}
+                            renderInput={(params) => <TextField {...params} size='small' placeholder={`Select ${Category}`} fullWidth />}
+                            onChange={(e, value) => setProduct(value)}
                         />
                     </Grid>
                     <Grid item xs={12}>
-                        <FashionForm />
+                        {Category == 'Egg' ? <EggForm /> : <VegitableForm />}
                     </Grid>
                 </Grid>
             </Box>
@@ -120,13 +133,13 @@ function Catelouge() {
                             size="small"
                             variant="outlined"
                             sx={{
-                                border: "1px solid #2B3588",
-                                color: "#2B3588",
+                                border: "1px solid #085e15",
+                                color: "#085e15",
                                 fontSize: "14px !important",
                                 py: "3px",
                                 px: "15px",
                                 textTransform: "none",
-                                "&:hover": { color: "#2B3588", border: "1px solid #2B3588" },
+                                "&:hover": { color: "#085e15", border: "1px solid #085e15" },
                             }}
                         >
                             Cancel
@@ -141,13 +154,13 @@ function Catelouge() {
                                 size="small"
                                 variant="outlined"
                                 sx={{
-                                    border: "1px solid #2B3588",
-                                    color: "#2B3588",
+                                    border: "1px solid #085e15",
+                                    color: "#085e15",
                                     fontSize: "14px !important",
                                     py: "3px",
                                     px: "15px",
                                     textTransform: "none",
-                                    "&:hover": { color: "#2B3588", border: "1px solid #2B3588" },
+                                    "&:hover": { color: "#085e15", border: "1px solid #085e15" },
                                 }}
                             >
                                 Cancel
@@ -159,12 +172,12 @@ function Catelouge() {
                             variant="contained"
                             sx={{
                                 ml: "20px",
-                                backgroundColor: "#2B3588",
+                                backgroundColor: "#085e15",
                                 borderRadius: "3px",
                                 textTransform: "none",
                                 px: "10px",
                                 py: "0",
-                                "&:hover": { backgroundColor: "#2B3588" },
+                                "&:hover": { backgroundColor: "#085e15" },
                             }}
                             onClick={() => {
                                 UpdateData();
@@ -182,13 +195,13 @@ function Catelouge() {
                                 size="small"
                                 variant="outlined"
                                 sx={{
-                                    border: "1px solid #2B3588",
-                                    color: "#2B3588",
+                                    border: "1px solid #085e15",
+                                    color: "#085e15",
                                     fontSize: "14px !important",
                                     py: "3px",
                                     px: "15px",
                                     textTransform: "none",
-                                    "&:hover": { color: "#2B3588", border: "1px solid #2B3588" },
+                                    "&:hover": { color: "#085e15", border: "1px solid #085e15" },
                                 }}
                             >
                                 Cancel
@@ -201,12 +214,12 @@ function Catelouge() {
                             variant="contained"
                             sx={{
                                 ml: "20px",
-                                backgroundColor: "#2B3588",
+                                backgroundColor: "#085e15",
                                 borderRadius: "3px",
                                 textTransform: "none",
                                 px: "10px",
                                 py: "0",
-                                "&:hover": { backgroundColor: "#2B3588" },
+                                "&:hover": { backgroundColor: "#085e15" },
                             }}
                             onClick={() => {
                                 CreateData();
@@ -236,7 +249,7 @@ function Catelouge() {
                         <Button
                             disableElevation
                             style={{
-                                backgroundColor: "#2B3588",
+                                backgroundColor: "#085e15",
                                 textDecoration: "none",
                                 textTransform: "none",
                                 borderRadius: "3px",

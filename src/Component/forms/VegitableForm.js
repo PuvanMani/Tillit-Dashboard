@@ -6,8 +6,8 @@ import save from '../../Assets/Images/Completed successfully.png'
 import moment from "moment/moment";
 import { BASE_URL } from '../../Config/Config';
 import { LoadingButton } from '@mui/lab';
-import FreeSoloCreateOptionDialog from '../../Component/Autocomplete/AddAutocomplete';
-function FashionForm() {
+import FreeSoloCreateOptionDialog from '../Autocomplete/AddAutocomplete';
+function VegitableForm() {
 
     const params = useParams()
     const [disable, setDisable] = useState(false);
@@ -129,7 +129,7 @@ function FashionForm() {
         <Box>
             <Box>
                 <Grid container spacing={2} justifyContent="center" sx={{ my: "10px" }}>
-                    <Grid item xs={12}>
+                    {/* <Grid item xs={12}>
                         <InputLabel
                             sx={{
                                 color: "#5E6366",
@@ -150,6 +150,28 @@ function FashionForm() {
                             variant="outlined"
                             fullWidth
                         />
+                    </Grid> */}
+                    <Grid item xs={12} md={6}>
+                        <InputLabel
+                            sx={{
+                                color: "#5E6366",
+                                fontSize: "14px !important",
+                                mb: "8px",
+                            }}
+                        >
+                            Available Stock (kg)
+                        </InputLabel>
+                        <TextField
+                            disabled={disable}
+                            value={taskname}
+                            onChange={(e) => setTaskName(e.target.value)}
+                            size="small"
+                            error={errObj["taskname"]}
+                            helperText={errObj["taskname"] ? "Task Name is required" : ""}
+                            placeholder="14"
+                            variant="outlined"
+                            fullWidth
+                        />
                     </Grid>
                     <Grid item xs={12} md={6}>
                         <InputLabel
@@ -159,7 +181,7 @@ function FashionForm() {
                                 mb: "8px",
                             }}
                         >
-                            M. R. P ( ₹ )
+                            Market Price ( ₹ )
                         </InputLabel>
                         <TextField
                             disabled={disable}
@@ -181,7 +203,7 @@ function FashionForm() {
                                 mb: "8px",
                             }}
                         >
-                            Offer Price
+                            Your Price ( ₹ )
                         </InputLabel>
                         <TextField
                             disabled={disable}
@@ -203,7 +225,7 @@ function FashionForm() {
                                 mb: "8px",
                             }}
                         >
-                            Avilable Stock
+                            Our Commission ( ₹ )
                         </InputLabel>
                         <TextField
                             disabled={disable}
@@ -212,13 +234,12 @@ function FashionForm() {
                             size="small"
                             error={errObj["taskname"]}
                             helperText={errObj["taskname"] ? "Task Name is required" : ""}
-                            placeholder="14"
+                            placeholder="399"
                             variant="outlined"
                             fullWidth
                         />
                     </Grid>
                     <Grid item xs={12} md={6}>
-
                         <InputLabel
                             sx={{
                                 color: "#5E6366",
@@ -226,34 +247,19 @@ function FashionForm() {
                                 mb: "8px",
                             }}
                         >
-                            Add Color
+                            Our Commission ( ₹ )
                         </InputLabel>
-                        <FreeSoloCreateOptionDialog placeholder="Red" />
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                        <InputLabel
-                            sx={{
-                                color: "#5E6366",
-                                fontSize: "14px !important",
-                                mb: "8px",
-                            }}
-                        >
-                            Size
-                        </InputLabel>
-                        <FreeSoloCreateOptionDialog placeholder='XL' />
-                    </Grid>
-
-                    <Grid item xs={12} md={6}>
-                        <InputLabel
-                            sx={{
-                                color: "#5E6366",
-                                fontSize: "14px !important",
-                                mb: "8px",
-                            }}
-                        >
-                            About this item
-                        </InputLabel>
-                        <FreeSoloCreateOptionDialog placeholder='This product is pure natural' />
+                        <TextField
+                            disabled={disable}
+                            value={taskname}
+                            onChange={(e) => setTaskName(e.target.value)}
+                            size="small"
+                            error={errObj["taskname"]}
+                            helperText={errObj["taskname"] ? "Task Name is required" : ""}
+                            placeholder="399"
+                            variant="outlined"
+                            fullWidth
+                        />
                     </Grid>
                     <Grid item xs={12} md={6}>
                         <InputLabel
@@ -273,28 +279,6 @@ function FashionForm() {
                             error={errObj["taskname"]}
                             helperText={errObj["taskname"] ? "Task Name is required" : ""}
                             placeholder="Discription"
-                            variant="outlined"
-                            fullWidth
-                        />
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                        <InputLabel
-                            sx={{
-                                color: "#5E6366",
-                                fontSize: "14px !important",
-                                mb: "8px",
-                            }}
-                        >
-                            Item model number
-                        </InputLabel>
-                        <TextField
-                            disabled={disable}
-                            value={taskname}
-                            onChange={(e) => setTaskName(e.target.value)}
-                            size="small"
-                            error={errObj["taskname"]}
-                            helperText={errObj["taskname"] ? "Task Name is required" : ""}
-                            placeholder="KEY6-JSU9-99HY"
                             variant="outlined"
                             fullWidth
                         />
@@ -329,73 +313,7 @@ function FashionForm() {
                                 mb: "8px",
                             }}
                         >
-                            Department
-                        </InputLabel>
-                        <TextField
-                            disabled={disable}
-                            value={taskname}
-                            onChange={(e) => setTaskName(e.target.value)}
-                            size="small"
-                            error={errObj["taskname"]}
-                            helperText={errObj["taskname"] ? "Task Name is required" : ""}
-                            placeholder="Mens"
-                            variant="outlined"
-                            fullWidth
-                        />
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                        <InputLabel
-                            sx={{
-                                color: "#5E6366",
-                                fontSize: "14px !important",
-                                mb: "8px",
-                            }}
-                        >
-                            Item Weight ( g )
-                        </InputLabel>
-                        <TextField
-                            disabled={disable}
-                            value={taskname}
-                            onChange={(e) => setTaskName(e.target.value)}
-                            size="small"
-                            error={errObj["taskname"]}
-                            helperText={errObj["taskname"] ? "Task Name is required" : ""}
-                            placeholder="300"
-                            variant="outlined"
-                            fullWidth
-                        />
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                        <InputLabel
-                            sx={{
-                                color: "#5E6366",
-                                fontSize: "14px !important",
-                                mb: "8px",
-                            }}
-                        >
-                            Item Dimensions L x W x H
-                        </InputLabel>
-                        <TextField
-                            disabled={disable}
-                            value={taskname}
-                            onChange={(e) => setTaskName(e.target.value)}
-                            size="small"
-                            error={errObj["taskname"]}
-                            helperText={errObj["taskname"] ? "Task Name is required" : ""}
-                            placeholder="28 x 22 x 2 Centimeters"
-                            variant="outlined"
-                            fullWidth
-                        />
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                        <InputLabel
-                            sx={{
-                                color: "#5E6366",
-                                fontSize: "14px !important",
-                                mb: "8px",
-                            }}
-                        >
-                            Net Quantity
+                            Net Quantity (minimum)
                         </InputLabel>
                         <TextField
                             disabled={disable}
@@ -409,32 +327,10 @@ function FashionForm() {
                             fullWidth
                         />
                     </Grid>
-                    <Grid item xs={12} md={6}>
-                        <InputLabel
-                            sx={{
-                                color: "#5E6366",
-                                fontSize: "14px !important",
-                                mb: "8px",
-                            }}
-                        >
-                            Generic Name
-                        </InputLabel>
-                        <TextField
-                            disabled={disable}
-                            value={taskname}
-                            onChange={(e) => setTaskName(e.target.value)}
-                            size="small"
-                            error={errObj["taskname"]}
-                            helperText={errObj["taskname"] ? "Task Name is required" : ""}
-                            placeholder="Generic Name"
-                            variant="outlined"
-                            fullWidth
-                        />
-                    </Grid>
                 </Grid>
             </Box>
         </Box>
     );
 }
 
-export default FashionForm;
+export default VegitableForm;

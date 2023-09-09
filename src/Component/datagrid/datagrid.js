@@ -19,15 +19,15 @@ import { saveAsExcel } from "../Export Csv/Exportcsv";
 
 const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
   "& .MuiDataGrid-columnHeaders": {
-    backgroundColor: "#FAFBFF",
+    backgroundColor: "#efffd4",
     borderTop: "1px solid #DDDDDD",
     borderBottom: "1px solid #DDDDDD",
     borderRight: "1px solid #DDDDDD",
-    color: "#8c0000",
+    color: "#085e15",
   },
 
   "& .MuiDataGrid-columnHeader": {
-    backgroundColor: "#FAFBFF",
+    backgroundColor: "#efffd4",
     borderLeft: "1px solid #DDDDDD",
     fontWeight: "700",
   },

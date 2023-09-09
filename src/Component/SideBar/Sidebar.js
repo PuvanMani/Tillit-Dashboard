@@ -11,7 +11,7 @@ import {
   Divider,
 } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
-import Logo from "../../Assets/Images/Zhaamart.png";
+import Logo from "../../Assets/Images/Tillit PNG.png";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { data } from '../../Assets/JSON/data'
@@ -77,12 +77,12 @@ export default function Sidebar({ op, setOp }) {
                         py: "5px",
                         px: "20px",
                         fontWeight: "500",
-                        background: location.pathname == text.path ? "#8c0000" : "#FFF",
+                        background: location.pathname == text.path ? "#085e15" : "#FFF",
                         borderRadius: "5px",
                         mt: "3px",
                         "&:hover": {
                           color: "white",
-                          backgroundColor: "#8c0000",
+                          backgroundColor: "#085e15",
                         },
                       }}
                       onMouseEnter={() => setHovered(index)}

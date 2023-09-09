@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Img from "../Assets/Images/login.jpg";
-import Logo from "../Assets/Images/Zhaamart.png";
+import Logo from "../Assets/Images/Tillit PNG.png";
 import Checkbox from "@mui/material/Checkbox";
 import { CkeckIco } from "../Assets/JSON/icons";
 import { useContext } from "react";

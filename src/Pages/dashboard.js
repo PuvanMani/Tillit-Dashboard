@@ -200,7 +200,7 @@ export default function Dashboard() {
     <Grid container spacing={2}>
       <Grid item xs={12} sm={6} md={3.5}>
         <Box
-          sx={{ p: "11px 15px", background: "#FFFFFF", borderRadius: "12px" }}
+          sx={{ p: "11px 15px", background: "#FFFFFF", borderRadius: "12px", boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;" }}
         >
           <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -240,32 +240,19 @@ export default function Dashboard() {
                 </Menu>
               </Box>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
               <Box
                 sx={{
                   display: "flex",
-                  flexDirection: "column",
+                  // flexDirection: "column",
                   alignItems: "center",
+                  justifyContent: "center"
                 }}
               >
-                <Typography sx={{ color: " #000" }} variant="caption">
+                <Typography sx={{ color: " #000", mr: "10px" }} variant="caption">
                   Orders
                 </Typography>
                 <Typography>{projectData?.length}</Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={6}>
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                <Typography sx={{ color: " #000" }} variant="caption">
-                  Returns
-                </Typography>
-                <Typography>{workedproject?.length}</Typography>
               </Box>
             </Grid>
           </Grid>
@@ -273,7 +260,7 @@ export default function Dashboard() {
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
         <Box
-          sx={{ p: "11px 15px", background: "#FFFFFF", borderRadius: "12px" }}
+          sx={{ p: "11px 15px", background: "#FFFFFF", borderRadius: "12px", boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;" }}
         >
           <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -316,32 +303,18 @@ export default function Dashboard() {
                 </Menu>
               </Box>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
               <Box
                 sx={{
                   display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
+                  justifyContent: "center",
+                  alignItems: "center"
                 }}
               >
-                <Typography sx={{ color: " #000" }} variant="caption">
-                  Sale Amount
+                <Typography sx={{ color: " #000", mr: "10px" }} variant="caption">
+                  Total Sale Amount
                 </Typography>
-                <Typography>10</Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={6}>
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                <Typography sx={{ color: " #000" }} variant="caption">
-                  Sale Product
-                </Typography>
-                <Typography>10</Typography>
+                <Typography>₹ 10</Typography>
               </Box>
             </Grid>
           </Grid>
@@ -349,7 +322,7 @@ export default function Dashboard() {
       </Grid>
       <Grid item xs={12} sm={12} md={4.5}>
         <Box
-          sx={{ p: "11px 15px", background: "#FFFFFF", borderRadius: "12px" }}
+          sx={{ p: "11px 15px", background: "#FFFFFF", borderRadius: "12px", boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;" }}
         >
           <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -392,46 +365,32 @@ export default function Dashboard() {
                 </Menu>
               </Box>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={6}>
               <Box
                 sx={{
                   display: "flex",
-                  flexDirection: "column",
+                  justifyContent: "center",
                   alignItems: "center",
                 }}
               >
-                <Typography sx={{ color: " #000" }} variant="caption">
-                  Orders
+                <Typography sx={{ color: " #000", mr: "10px" }} variant="caption">
+                  Paid Amount
                 </Typography>
-                <Typography>{todo?.length}</Typography>
+                <Typography>₹ {todo?.length}</Typography>
               </Box>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={6}>
               <Box
                 sx={{
                   display: "flex",
-                  flexDirection: "column",
+                  justifyContent: "center",
                   alignItems: "center",
                 }}
               >
-                <Typography sx={{ color: " #000" }} variant="caption">
-                  Returns
+                <Typography sx={{ color: " #000", mr: "10px" }} variant="caption">
+                  Pending Amount
                 </Typography>
-                <Typography>{progress?.length}</Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={4}>
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                <Typography sx={{ color: " #000" }} variant="caption">
-                  Delivered
-                </Typography>
-                <Typography>{completed?.length}</Typography>
+                <Typography>₹ {todo?.length}</Typography>
               </Box>
             </Grid>
           </Grid>
@@ -439,7 +398,7 @@ export default function Dashboard() {
       </Grid>
       <Grid item xs={12}>
         <Box
-          sx={{ p: "11px 15px", background: "#FFFFFF", borderRadius: "12px" }}
+          sx={{ p: "11px 15px", background: "#FFFFFF", borderRadius: "12px", boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;", boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;" }}
         >
           <Box
             sx={{
@@ -521,7 +480,7 @@ export default function Dashboard() {
       </Grid>
       <Grid item xs={12} md={7}>
         <Box
-          sx={{ p: "11px 15px", background: "#FFFFFF", borderRadius: "12px" }}
+          sx={{ p: "11px 15px", background: "#FFFFFF", borderRadius: "12px", boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;" }}
         >
           <Box
             sx={{
@@ -583,7 +542,7 @@ export default function Dashboard() {
       </Grid>
       <Grid item xs={12} md={5}>
         <Box
-          sx={{ p: "11px 15px", background: "#FFFFFF", borderRadius: "12px" }}
+          sx={{ p: "11px 15px", background: "#FFFFFF", borderRadius: "12px", boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;" }}
         >
           <Box
             sx={{

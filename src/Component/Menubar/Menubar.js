@@ -81,10 +81,10 @@ export default function Menubar() {
                 <MenuIcon sx={{ width: "30px", fontWeight: "bold" }} />
               </IconButton>
               <div>
-                <Typography className="admin-heading">
+                <Typography className="admin-heading" sx={{ color: "#085e15" }}>
                   Hello, Puvan {localStorage.getItem("employeename")} !
                 </Typography>
-                <Typography className="date">
+                <Typography className="date" >
                   {moment(new Date().toLocaleDateString()).format("DD-MM-YYYY")}
                 </Typography>
               </div>

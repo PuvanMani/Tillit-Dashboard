@@ -1,10 +1,10 @@
 import { Box, Button, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import React, { useState, useEffect, useRef } from 'react';
-import InvoiceImage from '../../Assets/Images/Zhaamart.png';
+import InvoiceImage from '../../Assets/Images/Tillit PNG 2.png';
 import { BASE_URL } from '../../Config/Config';
 import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
 import moment from 'moment';
-import Signature from '../../Assets/Images/Zhaamart.png';
+import Signature from '../../Assets/Images/Tillit PNG 2.png';
 import { Link, useParams } from 'react-router-dom';
 import ReactToPrint from 'react-to-print';
 
