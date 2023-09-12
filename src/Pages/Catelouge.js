@@ -3,53 +3,98 @@ import { Box, Stack } from '@mui/system'
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import save from '../Assets/Images/Completed successfully.png'
-import moment from "moment/moment";
 import { BASE_URL } from '../Config/Config';
 import { LoadingButton } from '@mui/lab';
-import VegitableForm from '../Component/forms/VegitableForm';
-import { DataList } from '../Assets/JSON/List';
-import EggForm from '../Component/forms/EggForm'
+
 function Catelouge() {
 
+
+    const [Stock, setStock] = useState("");
+    const [MarketPrice, setMarketPrice] = useState("");
+    const [Price, setPrice] = useState("");
+    const [Discription, setDiscription] = useState("");
+    const [NetQuantity, setNetQuantity] = useState("");
+
+    const [errObj, setErrObj] = useState({
+        Stock: false,
+        MatketPrice: false,
+        Price: false,
+        Discription: false,
+        NetQuantity: false,
+    });
+    const [disable, setDisable] = useState(false);
+
     const params = useParams()
+    const [ListAllCategory, setListAllCategory] = useState([]);
+    const [ListAllSubCategory, setListAllSubCategory] = useState([]);
+
     const [Category, setCategory] = useState("");
-    const [Product, setProduct] = useState("");
+
+    const [Name, setName] = useState("");
 
     const [load, setLoad] = useState(false);
 
     const nav = useNavigate()
-    const [FilterdData, setFilterdData] = useState([]);
+
 
 
     const [dial, setDial] = useState(false);
-    const [errObj, setErrObj] = useState({
-        date: false,
-        type: false,
-        projectname: false,
-        taskname: false,
-        starttime: false,
-        endtime: false,
-    });
 
-    const handleChange = (e, value) => {
+    const handleCategoryChange = (e, value) => {
         if (value != null) {
             setCategory(value.Category)
-            let data = DataList.filter(val => value.Category == val.Category)
-            setFilterdData([...data[0].Child])
-            setProduct("")
+            setName("")
+            BASE_URL.post('/subcategory/listbyid', { CategoryID: value._id }).then(res => {
+                console.log(res.data)
+                if (res.data.Status) {
+                    setListAllSubCategory([...res.data.Message])
+                } else {
+
+                }
+            })
         } else {
             setCategory("")
-            setFilterdData([])
+            setListAllSubCategory([])
+            setName("")
         }
 
     }
 
 
-    //Create Function 
-    const CreateData = () => {
-        setLoad(true)
+    //SubCategory Function 
+    const handleSubCategoryChange = (e, value) => {
+        if (value != null) {
+            setName(value.Name)
+        } else {
+            setName("")
+        }
 
     }
+    //Create Function 
+    const CreateData = () => {
+        const data = {
+            Category,
+            Name,
+            MarketPrice,
+            YourPrice: Price,
+            Stock,
+            Discription,
+            CreatedDate: new Date().toLocaleDateString(),
+            NetQuantity,
+            ImageURL: ["https://t3.ftcdn.net/jpg/04/07/93/00/240_F_407930079_cUaIKu2X9rTstokJ1ohsIgkYsimvZnp1.jpg"],
+            CreatedBy: "6500209802024c7f6b665751",
+        }
+        console.log(data)
+        setLoad(true)
+        BASE_URL.post("/product/create", data).then(res => {
+            if (res.data.Status) {
+                setLoad(false)
+                nav('/product')
+            }
+        })
+
+    }
+
 
 
     // Update Function 
@@ -57,8 +102,21 @@ function Catelouge() {
         console.log("Loged")
     }
 
-    useEffect(() => {
 
+    //List Category Function 
+    const ListCategory = () => {
+        BASE_URL.put('/category/list').then(res => {
+            if (res.data.Status) {
+                setListAllCategory([...res.data.Message])
+            } else {
+
+            }
+        })
+
+    }
+
+    useEffect(() => {
+        ListCategory()
     }, [])
     return (
         <Box
@@ -87,11 +145,11 @@ function Catelouge() {
                         </InputLabel>
                         <Autocomplete
                             disablePortal
-                            options={DataList}
+                            options={ListAllCategory}
                             value={{ Category }}
                             getOptionLabel={(option) => option.Category}
                             renderInput={(params) => <TextField {...params} size='small' placeholder='Category' fullWidth />}
-                            onChange={(e, value) => handleChange(e, value)}
+                            onChange={(e, value) => handleCategoryChange(e, value)}
                         />
                     </Grid>
                     <Grid item xs={12} md={6}>
@@ -106,15 +164,167 @@ function Catelouge() {
                         </InputLabel>
                         <Autocomplete
                             disablePortal
-                            value={Product}
-                            options={FilterdData}
-                            getOptionLabel={(option) => option}
+                            value={{ Name }}
+                            options={ListAllSubCategory}
+                            getOptionLabel={(option) => option.Name}
                             renderInput={(params) => <TextField {...params} size='small' placeholder={`Select ${Category}`} fullWidth />}
-                            onChange={(e, value) => setProduct(value)}
+                            onChange={(e, value) => handleSubCategoryChange(e, value)}
                         />
                     </Grid>
-                    <Grid item xs={12}>
-                        {Category == 'Egg' ? <EggForm /> : <VegitableForm />}
+
+                    {
+                        Category == "Egg" ? (<Grid item xs={12} md={6}>
+                            <InputLabel
+                                sx={{
+                                    color: "#5E6366",
+                                    fontSize: "14px !important",
+                                    mb: "8px",
+                                }}
+                            >
+                                Available Stock (Count)
+                            </InputLabel>
+                            <TextField
+                                disabled={disable}
+                                value={Stock}
+                                onChange={(e) => setStock(e.target.value)}
+                                size="small"
+                                error={errObj["Stock"]}
+                                helperText={errObj["Stock"] ? "Task Name is required" : ""}
+                                placeholder="14"
+                                variant="outlined"
+                                fullWidth
+                            />
+                        </Grid>) : (<Grid item xs={12} md={6}>
+                            <InputLabel
+                                sx={{
+                                    color: "#5E6366",
+                                    fontSize: "14px !important",
+                                    mb: "8px",
+                                }}
+                            >
+                                Available Stock (kg)
+                            </InputLabel>
+                            <TextField
+                                disabled={disable}
+                                value={Stock}
+                                onChange={(e) => setStock(e.target.value)}
+                                size="small"
+                                error={errObj["Stock"]}
+                                helperText={errObj["Stock"] ? "Task Name is required" : ""}
+                                placeholder="14"
+                                variant="outlined"
+                                fullWidth
+                            />
+                        </Grid>)
+                    }
+                    <Grid item xs={12} md={6}>
+                        <InputLabel
+                            sx={{
+                                color: "#5E6366",
+                                fontSize: "14px !important",
+                                mb: "8px",
+                            }}
+                        >
+                            Market Price ( ₹ )
+                        </InputLabel>
+                        <TextField
+                            disabled={disable}
+                            value={MarketPrice}
+                            onChange={(e) => setMarketPrice(e.target.value)}
+                            size="small"
+                            error={errObj["MarketPrice"]}
+                            helperText={errObj["MarketPrice"] ? "Task Name is required" : ""}
+                            placeholder="699"
+                            variant="outlined"
+                            fullWidth
+                        />
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <InputLabel
+                            sx={{
+                                color: "#5E6366",
+                                fontSize: "14px !important",
+                                mb: "8px",
+                            }}
+                        >
+                            Your Price ( ₹ )
+                        </InputLabel>
+                        <TextField
+                            disabled={disable}
+                            value={Price}
+                            onChange={(e) => setPrice(e.target.value)}
+                            size="small"
+                            error={errObj["Price"]}
+                            helperText={errObj["Price"] ? "Task Name is required" : ""}
+                            placeholder="399"
+                            variant="outlined"
+                            fullWidth
+                        />
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <InputLabel
+                            sx={{
+                                color: "#5E6366",
+                                fontSize: "14px !important",
+                                mb: "8px",
+                            }}
+                        >
+                            Our Commission ( ₹ )
+                        </InputLabel>
+                        <TextField
+                            disabled={true}
+                            value={Price ? ((Price * 10) / 100) : ""}
+                            size="small"
+                            error={errObj["taskname"]}
+                            helperText={errObj["taskname"] ? "Task Name is required" : ""}
+                            placeholder="399"
+                            variant="outlined"
+                            fullWidth
+                        />
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <InputLabel
+                            sx={{
+                                color: "#5E6366",
+                                fontSize: "14px !important",
+                                mb: "8px",
+                            }}
+                        >
+                            Discription
+                        </InputLabel>
+                        <TextField
+                            disabled={disable}
+                            value={Discription}
+                            onChange={(e) => setDiscription(e.target.value)}
+                            size="small"
+                            error={errObj["Discription"]}
+                            helperText={errObj["Discription"] ? "Task Name is required" : ""}
+                            placeholder="Discription"
+                            variant="outlined"
+                            fullWidth
+                        />
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <InputLabel
+                            sx={{
+                                color: "#5E6366",
+                                fontSize: "14px !important",
+                                mb: "8px",
+                            }}
+                        >
+                            Net Quantity (minimum)
+                        </InputLabel>
+                        <TextField
+                            disabled={disable}
+                            value={NetQuantity}
+                            onChange={(e) => setNetQuantity(e.target.value)}
+                            size="small"
+                            error={errObj["NetQuantity"]}
+                            helperText={errObj["NetQuantity"] ? "Task Name is required" : ""}
+                            placeholder="1"
+                            variant="outlined"
+                            fullWidth
+                        />
                     </Grid>
                 </Grid>
             </Box>
