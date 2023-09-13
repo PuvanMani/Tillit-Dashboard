@@ -5,19 +5,12 @@ export const BASE_URL = axios.create({
   // baseURL: "https://employeeportalbk.largstone.com/",
   // baseURL: 'https://backendsm.largstone.com/',
   baseURL: "http://localhost:3002/",
-  // headers: {
-  //   token: localStorage.getItem("token") ? localStorage.getItem("token") : "",
-  //   userid:
-  //     // localStorage.getItem("userid"),
-  //     localStorage.getItem("rolename")
-  //       ? localStorage.getItem("rolename") == "ASSOCIATE"
-  //         ? localStorage.getItem("userid")
-  //         : ""
-  //       : "",
-  //   username: localStorage.getItem("username")
-  //     ? localStorage.getItem("username")
-  //     : "",
-  // },
+  headers: {
+    token: localStorage.getItem("token") ? localStorage.getItem("token") : "",
+    username: localStorage.getItem("username") ? localStorage.getItem("username") : "",
+    userid: localStorage.getItem("userid") ? localStorage.getItem("userid") : "",
+    role: localStorage.getItem("role") ? localStorage.getItem("role") : ""
+  },
 });
 // BASE_URL.interceptors.response.use(
 //   (res) => {

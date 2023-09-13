@@ -3,24 +3,13 @@ import {
   Box,
   Button,
   Grid,
-  InputLabel,
   InputAdornment,
-  MenuItem,
   TextField,
-  Dialog,
   Typography,
-  DialogTitle,
-  DialogContentText,
-  DialogContent,
-  DialogActions,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import Img from "../Assets/Images/login.jpg";
-import Logo from "../Assets/Images/Tillit PNG.png";
-import Checkbox from "@mui/material/Checkbox";
-import { CkeckIco } from "../Assets/JSON/icons";
-import { useContext } from "react";
-import { loginContext } from "../App";
+import { Link, useNavigate } from "react-router-dom";
+import Img from "../Assets/Images/Tillit PNG 2.png";
+import Logo from "../Assets/Images/Tillit PNG 2.png";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import Visibilityoff from "@mui/icons-material/VisibilityOffOutlined";
 import { BASE_URL } from "../Config/Config";
@@ -28,108 +17,66 @@ import IconButton from "@mui/material/IconButton";
 
 function Login() {
   const nav = useNavigate();
-  const [type, setType] = useState("");
-  const [open, setOpen] = useState(false);
-  const [username, setUserName] = useState("");
-  const [password, setPassword] = useState("");
+  const [UserName, setUserName] = useState("");
+  const [Password, setPassword] = useState("");
   const [pass, setPass] = useState(true);
   const [err, setErr] = useState({
-    employee: false,
-    username: false,
-    password: false,
+    UserName: false,
+    Password: false,
   });
   const [errmsg, setErrmsg] = useState({
-    username: "User Name is required",
-    password: "Password is required",
+    UserName: "User Name Not Found",
+    Password: "Check Your Password",
   });
   const onSubmit = () => {
     const err = {
-      username: username == "",
-      password: password == "",
+      UserName: UserName == "",
+      Password: Password == "",
     };
     setErr(err);
-    const verify = Object.values(err).every((val) => val == false);
-    if (verify) {
-      nav("/dashboard", { replace: true });
-      // BASE_URL.get("/session/login", {
-      //   headers: {
-      //     username: username,
-      //     password: password,
-      //   },
-      // }).then((res) => {
-      //   if (res.data.status) {
-      //     // if (res.data.Message != "") {
-      //     //   // <Dialog
-      //     //   //   fullWidth={true}
-      //     //   //   maxWidth="sm"
-      //     //   //   open={open}
-      //     //   //   onClose={() => setOpen(false)}
-      //     //   // >
-      //     //   //   <DialogTitle>Error</DialogTitle>
-      //     //   //   <DialogContent>
-      //     //   //     <DialogContentText>
-      //     //   //       You can set my maximum width and whether to adapt or not.
-      //     //   //     </DialogContentText>
-      //     //   //   </DialogContent>
-      //     //   //   <DialogActions>
-      //     //   //     <Button onClick={() => setOpen(false)}>Close</Button>
-      //     //   //   </DialogActions>
-      //     //   // </Dialog>;
-      //     // }
-      //     localStorage.setItem("username", res.data.Message[0].UserName);
-      //     localStorage.setItem("rolename", res.data.Message[0].RoleName);
-      //     localStorage.setItem("role", res.data.Message[0].Role);
-      //     localStorage.setItem("userid", res.data.Message[0].UserID);
-      //     localStorage.setItem("employeename", res.data.Message[0].EmployeeName);
-      //     localStorage.setItem("designation", res.data.Message[0].Designation);
-      //     localStorage.setItem("token", res.data.Message[0].token);
-      //     BASE_URL.defaults.headers = {
-      //       token: res.data.Message[0].token,
-      //       userid: res.data.Message[0].UserID,
-      //       username: res.data.Message[0].UserName,
-      //     };
-      //     nav("/dashboard", { replace: true });
-      //   } else {
-      //     if (res.data.Message == "User Name Is Wrong") {
-      //       setErrmsg({ ...errmsg, username: res.data.Message });
-      //       setErr({ ...err, username: true });
-      //     } else {
-      //       setErrmsg({ ...errmsg, password: res.data.Message });
-      //       setErr({ ...err, password: true });
-      //     }
-      //   }
-      // });
-      // .catch((err) => {
-      //   if (err.response.data.Message == "User Name Is Wrong") {
-      //     setErrmsg({ ...errmsg, username: err.response.data.Message });
-      //     setErr({ ...err, username: true });
-      //   } else {
-      //     setErrmsg({ ...errmsg, password: err.response.data.Message });
-      //     setErr({ ...err, password: true });
-      //   }
-      // });
+    if (Object.values(err).some((val) => val == true)) {
+
+    } else {
+
+      BASE_URL.post("/login", { UserName, Password }).then(res => {
+        if (res.data.Status) {
+          localStorage.setItem("token", res.data.Message[0].Token)
+          localStorage.setItem("userid", res.data.Message[0]._id)
+          localStorage.setItem("role", res.data.Message[0].Role)
+          localStorage.setItem("username", res.data.Message[0].UserName)
+          localStorage.setItem("name", (res.data.Message[0].FirstName + " " + res.data.Message[0].LastName))
+          BASE_URL.create({
+            headers: {
+              username: UserName, token: localStorage.getItem("token")
+            }
+          })
+          nav("/dashboard", { replace: true });
+
+        } else {
+          if (res.data.Message == "UserName Not Found") {
+            const err = {
+              UserName: true,
+              Password: false,
+            };
+            setErr(err);
+          }
+          else if (res.data.Message == "Wrong Password") {
+            const err = {
+              UserName: false,
+              Password: true,
+            };
+            setErr(err);
+          }
+        }
+      })
     }
-  };
+  }
   useEffect(() => {
     localStorage.clear()
   }, [])
   return (
-    <Box sx={{ m: { xs: "20px", md: "90px" } }}>
+    <Box sx={{ m: { xs: "20px", md: "30px" } }}>
       <Grid container sx={{ backgroundColor: "#FFF", borderRadius: "30px" }}>
-        <Grid
-          item
-          xs={12}
-          md={6}
-          sx={{
-            display: { xs: "flex", md: "none" },
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Box>
-            <img src={Img} width="100%"></img>
-          </Box>
-        </Grid>
         <Grid
           item
           xs={12}
@@ -141,7 +88,7 @@ function Login() {
           }}
         >
           <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <img src={Logo} />
+            <img src={Logo} width='150px' />
           </Box>
           <Box>
             <Typography
@@ -165,32 +112,10 @@ function Login() {
             </Typography>
           </Box>
           <Grid container spacing={2}>
-            {/* <Grid item xs={12}>
-              <TextField
-                select
-                defaultValue=""
-                onChange={(e) => setType(e.target.value)}
-                fullWidth
-                error={err.type}
-                helperText={err.type ? "Please select the your role" : ""}
-                variant="outlined"
-                label="Select Login Profile"
-                size="small"
-              >
-                <MenuItem value="E">Employee</MenuItem>
-                <MenuItem value="I">Intern</MenuItem>
-              </TextField>
-            </Grid> */}
             <Grid item xs={12}>
               <TextField
-                error={err.username}
-                helperText={
-                  err.username
-                    ? username == ""
-                      ? "Username is required"
-                      : errmsg.username
-                    : ""
-                }
+                error={err.UserName}
+                helperText={err.UserName ? (UserName == "" ? "UserName is required" : errmsg.UserName) : ""}
                 onChange={(e) => setUserName(e.target.value)}
                 fullWidth
                 variant="outlined"
@@ -201,21 +126,15 @@ function Login() {
             <Grid item xs={12}>
               <TextField
                 fullWidth
-                error={err.password}
-                helperText={
-                  err.password
-                    ? password == ""
-                      ? "Password is required"
-                      : errmsg.password
-                    : ""
-                }
+                error={err.Password}
+                helperText={err.Password ? (Password == "" ? "Password is required" : errmsg.Password) : ""}
                 onChange={(e) => setPassword(e.target.value)}
                 variant="outlined"
                 label="Password"
                 size="small"
-                type={pass == true ? "password" : "text"}
+                type={pass == true ? "Password" : "text"}
                 InputProps={{
-                  endAdornment: password ? (
+                  endAdornment: Password ? (
                     <InputAdornment position="end">
                       <IconButton
                         onClick={() => {
@@ -224,11 +143,11 @@ function Login() {
                       >
                         {!pass ? (
                           <VisibilityIcon
-                            sx={{ color: err.password ? "#d32f2f" : "" }}
+                            sx={{ color: err.Password ? "#d32f2f" : "" }}
                           />
                         ) : (
                           <Visibilityoff
-                            sx={{ color: err.password ? "#d32f2f" : "" }}
+                            sx={{ color: err.Password ? "#d32f2f" : "" }}
                           />
                         )}
                       </IconButton>
@@ -241,38 +160,18 @@ function Login() {
             </Grid>
           </Grid>
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-            <Typography
-              variant="span"
-              component="p"
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                my: "10px",
-                color: "#676767",
-                fontSize: "14px",
-                fontWeight: 400,
+            <Link
+              to='/auth/signup'
+              style={{
+                textTransform: "none",
+                textDecoration: "underline",
+                color: "blue",
+                fontSize: "12px",
+                marginTop: "10px",
               }}
             >
-              {/* <Checkbox disableRipple size="medium" /> */}
-              <Checkbox
-                disableRipple
-                size="small"
-                icon={<CkeckIco sx={{ width: "26px", height: "26px" }} />}
-                sx={{
-                  fontWeight: 400,
-                  p: 0,
-                  mr: "10px",
-                  width: "26px",
-                  "&.Mui-checked": {
-                    mr: "10px",
-                    py: "5px",
-                    color: "#2B3588",
-                    transform: "scale(1.9)",
-                  },
-                }}
-              />
-              Remember Me
-            </Typography>
+              I don't have Account. Sign Up ?
+            </Link>
             <Button
               sx={{
                 textTransform: "none",
@@ -288,7 +187,7 @@ function Login() {
             disableElevation
             variant="contained"
             style={{
-              backgroundColor: "#2B3588",
+              backgroundColor: "#085e15",
               fontWeight: "700",
               borderRadius: "5px",
               fontSize: "24px !important",

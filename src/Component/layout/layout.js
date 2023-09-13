@@ -16,15 +16,20 @@ import Login from "../../Pages/Login";
 import { Box } from "@mui/system";
 import PageRoute from "../Router/pageroute";
 import FormRoute from "../Router/formRoute";
+import SignUp from "../../Pages/SignUp";
 function Layout() {
-  let loc = useLocation()
   let location = useNavigate();
-  // useEffect(() => { }, [location.location]);
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      location("/auth/login", { replace: true });
+    }
+  }, [location.location]);
   return (
     <>
 
       <Routes>
-        <Route path="/" element={<LayOutsMenu />}>
+
+        {localStorage.getItem("token") ? (<Route path="/" element={<LayOutsMenu />}>
           {PageRoute.map((value, ind) => (
             <Route path={value["path"]} element={value["element"]} key={ind} />
           ))}
@@ -32,7 +37,10 @@ function Layout() {
             <Route path={rou["path"]} element={rou["element"]} key={ind} />
           ))}
           <Route path={":id"} element={<div>404 Page Not Found</div>} />
-        </Route>
+        </Route>) : (<React.Fragment>
+          <Route path='/auth/login' element={<Login />} />
+          <Route path='/auth/signup' element={<SignUp />} />
+        </React.Fragment>)}
 
       </Routes>
 
@@ -49,7 +57,6 @@ function LayOutsMenu() {
         <Sidebar />
       </div>
       <Box sx={{ marginLeft: { xs: 0, md: "265px" } }}>
-        {/* <Menubar />  */}
 
         <Menubar />
         <div

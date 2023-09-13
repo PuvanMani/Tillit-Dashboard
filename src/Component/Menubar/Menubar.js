@@ -82,7 +82,7 @@ export default function Menubar() {
               </IconButton>
               <div>
                 <Typography className="admin-heading" sx={{ color: "#085e15" }}>
-                  Hello, Puvan {localStorage.getItem("employeename")} !
+                  Hello, {localStorage.getItem("name")} !
                 </Typography>
                 <Typography className="date" >
                   {moment(new Date().toLocaleDateString()).format("DD-MM-YYYY")}
@@ -144,7 +144,7 @@ export default function Menubar() {
                 <MenuItem
                   onClick={() => {
                     localStorage.clear();
-                    nav("/login");
+                    nav("/auth/login");
                   }}
                 >
                   Logout

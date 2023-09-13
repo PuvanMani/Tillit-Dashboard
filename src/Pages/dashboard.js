@@ -122,7 +122,7 @@ export default function Dashboard() {
   const [progress, setprogress] = useState([]);
   const [completed, setcompleted] = useState([]);
   const [ProjectTeammembers, setProjectTeammembers] = useState([]);
-  const [taskData, setTaskData] = useState([]);
+  const [ProductList, setProductList] = useState([]);
   const [menuItems, setMenuItems] = useState([
     { id: 0, anchorEl: null },
     { id: 1, anchorEl: null },
@@ -185,10 +185,9 @@ export default function Dashboard() {
     });
   };
   const listTask = () => {
-    BASE_URL.post("/task/listall").then((res) => {
+    BASE_URL.post("/product/list").then((res) => {
       if (res.data.Status) {
-        setTaskData(res.data.Message);
-        console.log(res.data.Message);
+        setProductList(res.data.Message);
       }
     });
   };
@@ -447,7 +446,7 @@ export default function Dashboard() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {taskData.map((row) => (
+                {ProductList.map((row) => (
                   <TableRow
                     key={row.name}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}

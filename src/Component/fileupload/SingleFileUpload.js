@@ -4,16 +4,17 @@ import React, { useState, useRef } from "react";
 import { TextField, Autocomplete, autocompleteClasses } from "@mui/material";
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
 
-export default function SingleFileUpoload({ Documents, setDocuments, Key, placeholder, ErrorObj }) {
+export default function SingleFileUpoload({ Image, ErrorObj }) {
     const fileInputRef = useRef(null);
-
+    const [DocumentName, setDocumentName] = useState("")
     const handleFileInputChange = (event) => {
         return new Promise((resolve, reject) => {
             const file = event.target.files[0];
             const reader = new FileReader();
 
             reader.onload = () => {
-                const base64 = reader.result.split(",")[1];
+                setDocumentName(event.target.files["0"].name)
+                const base64 = reader.result;
                 resolve(base64);
             };
 
@@ -27,37 +28,19 @@ export default function SingleFileUpoload({ Documents, setDocuments, Key, placeh
 
     const handleSingleFileUpload = async (event) => {
         if (event.target.files) {
-            if (Documents?.filter(val => val.ED_DocumentType == Key).length == 0) {
-                let newObj = {
-                    "PID": localStorage.getItem("PID"),
-                    ED_DocumentType: Key,
-                    ED_Document: await handleFileInputChange(event),
-                    ED_DocumentName: event.target.files["0"].name ? event.target.files["0"].name : "",
-                    ED_DocumentFormat: event.target.files["0"].type ? event.target.files["0"].type : ""
-                }
-                setDocuments([...Documents, newObj]);
-            } else {
-                let ind = Documents.findIndex(x => x.ED_DocumentType === Key)
-                let newObj = {
-                    "EmpDocID": Documents[ind].EmpDocID,
-                    "PID": localStorage.getItem("PID"),
-                    ED_DocumentType: Key,
-                    ED_Document: await handleFileInputChange(event),
-                    ED_DocumentName: event.target.files["0"].name ? event.target.files["0"].name : "",
-                    ED_DocumentFormat: event.target.files["0"].type ? event.target.files["0"].type : ""
-                }
-                Documents[ind] = newObj
-                setDocuments([...Documents]);
-            }
+            handleFileInputChange(event).then(res => {
+                Image(res)
+            })
         }
-    };
+    }
+
 
     const handleTextFieldClick = () => {
         fileInputRef.current.click();
     };
     return (
         <Stack>
-            <input type="file" style={{ display: "none" }} accept={Key == 'Photo' ? ".png,.jpg,.jpeg" : ".png,.jpg,.jpeg,.pdf"} onChange={handleSingleFileUpload} ref={fileInputRef} />
+            <input type="file" style={{ display: "none" }} accept=".jpg,.jpeg" onChange={handleSingleFileUpload} ref={fileInputRef} />
             <Autocomplete
 
                 sx={{
@@ -67,16 +50,18 @@ export default function SingleFileUpoload({ Documents, setDocuments, Key, placeh
                 }}
                 readOnly
                 options={[]}
-                value={Documents?.filter(val => val.ED_DocumentType == Key).map(val => val.ED_DocumentName)} popupIcon={<FileUploadOutlinedIcon sx={{ color: '#5E6366' }} />}
+                value={DocumentName}
+                popupIcon={<FileUploadOutlinedIcon sx={{ color: '#5E6366' }} />}
                 filterSelectedOptions
                 renderInput={(params) => (
                     <TextField
                         {...params}
                         size="small"
                         fullWidth
+                        value={DocumentName}
                         onClick={handleTextFieldClick}
-                        error={ErrorObj[Key]}
-                        helperText={ErrorObj[Key] ? `${Key} is required` : ""}
+                        error={ErrorObj["ImageUrl"]}
+                        helperText={ErrorObj["ImageUrl"] ? `Image is required` : ""}
                         placeholder="Choose File"
                     />
                 )}

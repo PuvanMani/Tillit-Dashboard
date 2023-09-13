@@ -1,10 +1,11 @@
+import Catelouge from "../../Pages/Catelouge";
 import InvoicePrintForm from "../forms/InvoicePrintForm";
 
 const FormRoute = [
   { name: "", path: "/invoices/:action/:id", element: <InvoicePrintForm /> },
 
-  // { name: "", path: "/timesheet/create", element: <Timesheetform /> },
-  // { name: "", path: "/timesheet/:action/:id", element: <Timesheetform /> },
+  { name: "", path: "/catelouge/create", element: <Catelouge /> },
+  { name: "", path: "/catelouge/:action/:id", element: <Catelouge /> },
 
 ];
 export default FormRoute;

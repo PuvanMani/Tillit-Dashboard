@@ -3,9 +3,8 @@ import Stack from "@mui/material/Stack";
 import React, { useState, useRef } from "react";
 import { TextField, Autocomplete, autocompleteClasses, IconButton, Backdrop, CircularProgress } from "@mui/material";
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
-import { BASE_URL } from "../../Config/Config";
-import ClearIcon from '@mui/icons-material/Clear';
-export default function MultiFileUpoload({ Documents, setDocuments, Key, ErrorObj }) {
+
+export default function MultiFileUpoload({ ImageURL, setImageURL, ErrorObj, disable }) {
     const fileInputRef = useRef(null);
     const [open, setOpen] = useState(false)
     const handleFileInputChange = (event) => {
@@ -14,7 +13,7 @@ export default function MultiFileUpoload({ Documents, setDocuments, Key, ErrorOb
             const reader = new FileReader();
 
             reader.onload = () => {
-                const base64 = reader.result.split(",")[1];
+                const base64 = reader.result;
                 resolve(base64);
             };
 
@@ -29,27 +28,18 @@ export default function MultiFileUpoload({ Documents, setDocuments, Key, ErrorOb
     const handleFileUpload = async (event) => {
         if (event.target.files) {
             let newObj = {
-                "PID": localStorage.getItem("PID"),
-                ED_DocumentType: Key,
-                ED_Document: await handleFileInputChange(event),
-                ED_DocumentName: event.target.files["0"].name ? event.target.files["0"].name : "",
-                ED_DocumentFormat: event.target.files["0"].type ? event.target.files["0"].type : ""
+                Document: await handleFileInputChange(event),
+                DocumentName: event.target.files["0"].name ? event.target.files["0"].name : "",
             }
-            setDocuments([...Documents, newObj]);
+            setImageURL([...ImageURL, newObj]);
         }
     };
 
     const handleDeleteChip = (value) => {
         setOpen(true)
-        if (value.EmpDocID) {
-            BASE_URL.post('/employeeinfo/deletedocuments', { EmpDocID: value.EmpDocID }).then((res) => {
-                setDocuments([...(Documents.filter((doc, ind) => doc.ED_DocumentName !== value.ED_DocumentName || doc.ED_DocumentType !== value.ED_DocumentType))])
-                setOpen(false)
-            })
-        } else {
-            setDocuments([...(Documents.filter((doc, ind) => doc.ED_DocumentName !== value.ED_DocumentName || doc.ED_DocumentType !== value.ED_DocumentType))])
-            setOpen(false)
-        }
+        setImageURL([...(ImageURL.filter((doc, ind) => doc.DocumentName !== value.DocumentName))])
+        setOpen(false)
+
     };
     const handleTextFieldClick = () => {
         fileInputRef.current.click();
@@ -71,15 +61,18 @@ export default function MultiFileUpoload({ Documents, setDocuments, Key, ErrorOb
                         transform: "none"
                     }
                 }}
-                options={[]} value={Documents?.filter(val => val.ED_DocumentType == Key).map(val => val.ED_DocumentName)}
+                options={[]}
+                disabled={disable}
+                value={ImageURL?.map(val => val.DocumentName)}
                 popupIcon={<FileUploadOutlinedIcon sx={{ color: '#5E6366' }} />}
                 renderTags={(value, getTagProps) =>
                     value?.map((option, index) => {
-                        const doc = Documents.find((doc, ind) => doc.ED_DocumentName === option && doc.ED_DocumentType === Key);
+                        const doc = ImageURL.find((doc, ind) => doc.DocumentName === option);
                         return (
                             <Chip
-                                label={doc?.ED_DocumentName}
-                                key={doc?.ED_DocumentName}
+                                disabled={disable}
+                                label={doc?.DocumentName}
+                                key={doc?.DocumentName}
                                 onDelete={() => handleDeleteChip(doc)}
                             />
                         );
@@ -93,8 +86,8 @@ export default function MultiFileUpoload({ Documents, setDocuments, Key, ErrorOb
                         size="small"
                         fullWidth
                         onClick={handleTextFieldClick}
-                        error={ErrorObj[Key]}
-                        helperText={ErrorObj[Key] ? `${Key} is required` : ""}
+                        error={ErrorObj["ImageUrl"]}
+                        helperText={ErrorObj["ImageUrl"] ? `ImageUrl is required` : ""}
                         placeholder="Choose File"
 
                     />

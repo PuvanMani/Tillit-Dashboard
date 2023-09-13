@@ -67,7 +67,7 @@ export default function Sidebar({ op, setOp }) {
                     to={text.path}
                     style={{
                       textDecoration: "none",
-                      color: location.pathname == text.path ? "white" : "#464646",
+                      color: location.pathname.includes(text.path) ? "white" : "#464646",
                     }}
                   >
                     <ListItemButton
@@ -77,7 +77,7 @@ export default function Sidebar({ op, setOp }) {
                         py: "5px",
                         px: "20px",
                         fontWeight: "500",
-                        background: location.pathname == text.path ? "#085e15" : "#FFF",
+                        background: location.pathname.includes(text.path) ? "#085e15" : "#FFF",
                         borderRadius: "5px",
                         mt: "3px",
                         "&:hover": {
@@ -145,7 +145,7 @@ export default function Sidebar({ op, setOp }) {
                     style={{
                       textDecoration: "none",
                       color:
-                        location.pathname == text.path ? "white" : "#464646",
+                        location.pathname.includes(text.path) ? "white" : "#464646",
                     }}
                   >
                     <ListItemButton
@@ -153,7 +153,7 @@ export default function Sidebar({ op, setOp }) {
                         display: "flex",
                         alignItems: "center",
                         background:
-                          location.pathname == text.path ? "#2B3588" : "",
+                          location.pathname.includes(text.path) ? "#2B3588" : "",
                         borderRadius: "5px",
                         mt: "3px",
                         "&:hover": {

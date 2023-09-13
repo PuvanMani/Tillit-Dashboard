@@ -9,6 +9,8 @@ import { useEffect } from 'react';
 import { BASE_URL } from '../Config/Config';
 import { useState } from 'react';
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
 function Product() {
     const [ProductList, setProductList] = useState([]);
     const [listData, setlistData] = useState([]);
@@ -90,19 +92,19 @@ function Product() {
             field: "Action",
             headerName: "Action",
             sortable: false,
-            width: 100,
+            width: 160,
             renderCell: (params) => (
                 <>
-                    {/* <IconButton>
-            <Tooltip title="View" arrow>
-              <Link to={`/timesheet/view/${params.row.TaskID}`}><VisibilityOutlinedIcon sx={{ color: '#5f49d3' }} /></Link>
-            </Tooltip>
-          </IconButton >
-          <IconButton>
-            <Tooltip title="Edit" arrow>
-              <Link to={`/timesheet/edit/${params.row.TaskID}`}><ModeEditOutlineOutlinedIcon sx={{ color: '#5f49d3' }} /></Link>
-            </Tooltip>
-          </IconButton> */}
+                    <IconButton>
+                        <Tooltip title="View" arrow>
+                            <Link to={`/catelouge/view/${params.row._id}`}><VisibilityIcon sx={{ color: '#5f49d3' }} /></Link>
+                        </Tooltip>
+                    </IconButton>
+                    <IconButton>
+                        <Tooltip title="Edit" arrow>
+                            <Link to={`/catelouge/edit/${params.row._id}`}><BorderColorIcon sx={{ color: '#5f49d3' }} /></Link>
+                        </Tooltip>
+                    </IconButton>
                     <IconButton
                         onClick={() =>
                             Sweetalert("Are you sure?").then((res) =>
@@ -172,8 +174,8 @@ function Product() {
                             <Grid item xs={12} sm={4} md={3}><ProductCard key={val.title} data={val} /></Grid>
                         ))
                     }
-                    <Pagination count={Math.round(ProductList.length / 4)} onChange={(e, page) => changepage(e, page)} sx={{ my: "10px" }} />
                 </Grid>
+                {(ProductList.length / 4) > 1 ? <Pagination count={Math.round(ProductList.length / 4)} onChange={(e, page) => changepage(e, page)} sx={{ my: "10px" }} /> : ""}
             </Grid>
         </Grid>
     )
