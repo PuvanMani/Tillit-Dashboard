@@ -36,6 +36,7 @@ function Layout() {
           {FormRoute.map((rou, ind) => (
             <Route path={rou["path"]} element={rou["element"]} key={ind} />
           ))}
+          <Route path={"*"} element={<Navigate to='/' replace />} />
           <Route path={":id"} element={<div>404 Page Not Found</div>} />
         </Route>) : (<React.Fragment>
           <Route path='/auth/login' element={<Login />} />
