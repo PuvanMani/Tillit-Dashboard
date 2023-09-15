@@ -12,22 +12,22 @@ export const BASE_URL = axios.create({
     role: localStorage.getItem("role") ? localStorage.getItem("role") : ""
   },
 });
-// BASE_URL.interceptors.response.use(
-//   (res) => {
-//     if (
-//       (res.data.Message == "Token Not Found" ||
-//         res.data.Message.message == "jwt expired") &&
-//       !window.location.pathname.startsWith("/ecp/IRN")
-//     ) {
-//       localStorage.clear();
-//       window.location.reload();
-//     } else {
-//       return res;
-//     }
-//     return res;
-//   },
-//   (error) =>
-//     Promise.reject(
-//       (error.response && error.response.data) || "Something went wrong!"
-//     )
-// );
+BASE_URL.interceptors.response.use(
+  (res) => {
+    if (
+      (res.data.Message == "Token Not Found" ||
+        res.data.Message.message == "jwt expired") &&
+      !window.location.pathname.startsWith("/ecp/IRN")
+    ) {
+      localStorage.clear();
+      window.location.reload();
+    } else {
+      return res;
+    }
+    return res;
+  },
+  (error) =>
+    Promise.reject(
+      (error.response && error.response.data) || "Something went wrong!"
+    )
+);

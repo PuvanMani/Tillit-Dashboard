@@ -8,12 +8,16 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 import { BASE_URL } from "../Config/Config";
 import moment from "moment";
 import { Sweetalert } from "../Component/sweetalert/sweetalert";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+
+
 function Orders() {
-  const [TaskData, setTaskData] = useState([]);
+  const [ListOrder, setListOrder] = useState([]);
 
   const ListTask = () => {
-    BASE_URL.post("/timesheet/listall").then((res) => {
-      setTaskData([...res.data.Message]);
+    BASE_URL.post("/order/list").then((res) => {
+      setListOrder([...res.data.Message]);
     });
   };
   const Delete = (TaskID) => {
@@ -28,73 +32,57 @@ function Orders() {
   const columns = [
     {
       headerAlign: "left",
-      field: "TaskName",
-      headerName: "Task Name",
+      field: "FullName",
+      headerName: "Customer Name",
       width: 250,
       sortable: false,
     },
     {
-      field: "TaskDate",
-      headerName: "Date",
-      width: 150,
-      sortable: false,
-      valueGetter: (params) => moment(params?.value).format("DD-MM-YYYY"),
-    },
-    {
-      field: "ProjectName",
-      headerName: "Project/Product Name",
-      width: 150,
+      field: "Address",
+      headerName: "Address",
+      width: 500,
       sortable: false,
     },
     {
-      field: "StartTime",
-      headerName: "Start Time",
+      field: "City",
+      headerName: "Pincode",
       width: 150,
       sortable: false,
-      valueGetter: (params) => moment(params?.value, "hh:mm").format("hh:mm A"),
     },
     {
-      field: "EndTime",
-
-      headerName: "End Time",
-      headerAlign: "left",
+      field: "PhoneNumber",
+      headerName: "Phone",
+      width: 150,
+      sortable: false,
+    },
+    {
+      field: "Status",
+      headerName: "Status",
       filter: false,
-      align: "left",
       width: 110,
       sortable: false,
-      valueGetter: (params) => moment(params?.value, "hh:mm").format("hh:mm A"),
-    },
-    {
-      field: "Totalhoures",
-      headerName: "Total Hours (HH:MM:SS)",
-      headerAlign: "left",
-      filter: false,
-      align: "left",
-      width: 150,
-      sortable: false,
-      valueGetter: (params) => params?.value.slice(0, 5),
     },
     {
       field: "Action",
       headerName: "Action",
       sortable: false,
-      width: 100,
+      width: 200,
       renderCell: (params) => (
         <>
-          {/* <IconButton>
+          <IconButton>
             <Tooltip title="View" arrow>
-              <Link to={`/timesheet/view/${params.row.TaskID}`}><VisibilityOutlinedIcon sx={{ color: '#5f49d3' }} /></Link>
+              <Link to={`/timesheet/view/${params.row.TaskID}`}><VisibilityIcon sx={{ color: '#5f49d3' }} /></Link>
             </Tooltip>
-          </IconButton >
+          </IconButton>
           <IconButton>
             <Tooltip title="Edit" arrow>
-              <Link to={`/timesheet/edit/${params.row.TaskID}`}><ModeEditOutlineOutlinedIcon sx={{ color: '#5f49d3' }} /></Link>
+              <Link to={`/timesheet/edit/${params.row.TaskID}`}><BorderColorIcon sx={{ color: '#5f49d3' }} /></Link>
             </Tooltip>
-          </IconButton> */}
+          </IconButton>
           <IconButton
             onClick={() =>
               Sweetalert("Are you sure?").then((res) =>
-                res ? Delete(params.row.TaskID) : ""
+                res ? Delete(params.row._id) : ""
               )
             }
           >
@@ -162,7 +150,7 @@ function Orders() {
               </Link> */}
             </Box>
           </Box>
-          <MyDataGrid columns={columns} rows={TaskData} id="TaskID" />
+          <MyDataGrid columns={columns} rows={ListOrder} id="_id" />
         </Box>
       </Grid>
       <Grid item xs={12}>
@@ -203,7 +191,7 @@ function Orders() {
               </Typography>
             </Box>
           </Box>
-          <MyDataGrid columns={columns} rows={TaskData} id="TaskID" />
+          <MyDataGrid columns={columns} rows={ListOrder} id="_id" />
         </Box>
       </Grid>
       <Grid item xs={12}>
@@ -244,7 +232,7 @@ function Orders() {
               </Typography>
             </Box>
           </Box>
-          <MyDataGrid columns={columns} rows={TaskData} id="TaskID" />
+          <MyDataGrid columns={columns} rows={ListOrder} id="_id" />
         </Box>
       </Grid>
     </Grid>

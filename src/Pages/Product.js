@@ -11,6 +11,10 @@ import { useState } from 'react';
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
+
+
+
+
 function Product() {
     const [ProductList, setProductList] = useState([]);
     const [listData, setlistData] = useState([]);
@@ -52,6 +56,7 @@ function Product() {
             headerName: "Stocks",
             width: 110,
             sortable: false,
+            valueGetter: (params) => `${params?.value} kg`
         },
         {
             field: "MarketPrice",
@@ -62,7 +67,7 @@ function Product() {
         },
         {
             field: "YourPrice",
-            headerName: "Your Price",
+            headerName: "Our Price",
             headerAlign: "left",
             filter: false,
             align: "left",
@@ -87,6 +92,7 @@ function Product() {
             align: "left",
             width: 150,
             sortable: false,
+            valueGetter: (params) => `${params?.value} g`
         },
         {
             field: "Action",
@@ -170,7 +176,7 @@ function Product() {
             <Grid item xs={12}>
                 <Grid container spacing={2}>
                     {
-                        ProductList.map(val => (
+                        listData.map(val => (
                             <Grid item xs={12} sm={4} md={3}><ProductCard key={val.title} data={val} /></Grid>
                         ))
                     }

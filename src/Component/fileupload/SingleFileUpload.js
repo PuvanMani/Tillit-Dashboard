@@ -4,7 +4,7 @@ import React, { useState, useRef } from "react";
 import { TextField, Autocomplete, autocompleteClasses } from "@mui/material";
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
 
-export default function SingleFileUpoload({ Image, ErrorObj }) {
+export default function SingleFileUpoload({ setImageURL, ErrorObj, disable }) {
     const fileInputRef = useRef(null);
     const [DocumentName, setDocumentName] = useState("")
     const handleFileInputChange = (event) => {
@@ -29,7 +29,7 @@ export default function SingleFileUpoload({ Image, ErrorObj }) {
     const handleSingleFileUpload = async (event) => {
         if (event.target.files) {
             handleFileInputChange(event).then(res => {
-                Image(res)
+                setImageURL(res)
             })
         }
     }
@@ -50,6 +50,7 @@ export default function SingleFileUpoload({ Image, ErrorObj }) {
                 }}
                 readOnly
                 options={[]}
+                disabled={disable}
                 value={DocumentName}
                 popupIcon={<FileUploadOutlinedIcon sx={{ color: '#5E6366' }} />}
                 filterSelectedOptions

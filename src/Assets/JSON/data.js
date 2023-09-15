@@ -24,5 +24,15 @@ export const data = [
     "name": "Invoice",
     "path": "/invoice",
     "icon": "TextSnippetIcon"
+  },
+  {
+    "name": "Category",
+    "path": "/category/create",
+    "icon": "TextSnippetIcon"
+  },
+  {
+    "name": "Sub Category",
+    "path": "/subcategory/create",
+    "icon": "TextSnippetIcon"
   }
 ]

@@ -24,15 +24,8 @@ function SignUp() {
     const nav = useNavigate();
 
     const [Agree, setAgree] = useState(false);
-    const [FirstName, setFirstName] = useState("");
-    const [LastName, setLastName] = useState("");
-    const [PhoneNumber, setPhoneNumber] = useState("");
+    const [FullName, setFullName] = useState("");
     const [Email, setEmail] = useState("");
-    const [Address, setAddress] = useState("");
-    const [City, setCity] = useState("");
-    const [Pincode, setPincode] = useState("");
-    const [StoreName, setStoreName] = useState("");
-    const [UserName, setUserName] = useState("");
     const [Password, setPassword] = useState("");
     const [otp, setOtp] = useState('');
     const [OTP, setOTP] = useState('');
@@ -41,13 +34,8 @@ function SignUp() {
     const [Dial, setDial] = useState(false);
     const [pass, setPass] = useState(true);
     const [err, setErr] = useState({
-        FirstName: false,
-        LastName: false,
-        PhoneNumber: false,
-        Address: false,
-        City: false,
-        Pincode: false,
-        UserName: false,
+        FullName: false,
+        Email: false,
         Password: false,
 
     });
@@ -57,13 +45,8 @@ function SignUp() {
     });
     const GetOTP = () => {
         const err = {
-            FirstName: FirstName == "",
-            LastName: LastName == "",
-            PhoneNumber: PhoneNumber == "",
-            Address: Address == "",
-            City: City == "",
-            Pincode: Pincode == "",
-            UserName: UserName == "",
+            FullName: FullName == "",
+            Email: Email == "",
             Password: Password == "",
         };
         setErr(err);
@@ -72,7 +55,7 @@ function SignUp() {
         } else {
             setDial(true)
 
-            let data = { FirstName, LastName, Address, City, Pincode, UserName, Password, StoreName, Email, PhoneNumber, Role: "Seller", TermsAndCondition: Agree }
+            let data = { FullName, Password, Email, Role: "Seller", TermsAndCondition: Agree }
             BASE_URL.post("/verifyemail", data).then(res => {
                 if (res.data.Status) {
                     const OTP = res.data.Message.OTP
@@ -85,13 +68,8 @@ function SignUp() {
     }
     const onSubmit = () => {
         const err = {
-            FirstName: FirstName == "",
-            LastName: LastName == "",
-            PhoneNumber: PhoneNumber == "",
-            Address: Address == "",
-            City: City == "",
-            Pincode: Pincode == "",
-            UserName: UserName == "",
+            FullName: FullName == "",
+            Email: Email == "",
             Password: Password == "",
         };
         setErr(err);
@@ -100,7 +78,7 @@ function SignUp() {
         } else {
             if (Number(otp) == OTP) {
                 setWrongOTP(false)
-                let data = { FirstName, LastName, Address, City, Pincode, UserName, Password, StoreName, PhoneNumber, Role: "Seller", TermsAndCondition: Agree }
+                let data = { FullName, Email, Password, Role: "Seller", TermsAndCondition: Agree }
                 BASE_URL.post("/signup", data).then(res => {
                     if (res.data.Status) {
                         Createalert("Account is")
@@ -157,46 +135,20 @@ function SignUp() {
                         </Typography>
                     </Box>
                     <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6}>
+                        <Grid item xs={12}>
                             <TextField
-                                error={err.FirstName}
+                                error={err.FullName}
                                 helperText={
-                                    err.FirstName ? FirstName == "" ? "First Name is required" : "" : ""
+                                    err.FullName ? FullName == "" ? "Full Name is required" : "" : ""
                                 }
-                                onChange={(e) => setFirstName(e.target.value)}
+                                onChange={(e) => setFullName(e.target.value)}
                                 fullWidth
                                 variant="outlined"
                                 label="First Name"
                                 size="small"
                             />
                         </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                error={err.LastName}
-                                helperText={
-                                    err.LastName ? LastName == "" ? "Last Name is required" : "" : ""
-                                }
-                                onChange={(e) => setLastName(e.target.value)}
-                                fullWidth
-                                variant="outlined"
-                                label="Last Name"
-                                size="small"
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                error={err.PhoneNumber}
-                                helperText={
-                                    err.PhoneNumber ? PhoneNumber == "" ? "Phone is required" : "" : ""
-                                }
-                                onChange={(e) => setPhoneNumber(e.target.value)}
-                                fullWidth
-                                variant="outlined"
-                                label="Phone Number"
-                                size="small"
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
+                        <Grid item xs={12}>
                             <TextField
                                 error={err.Email}
                                 helperText={
@@ -210,72 +162,6 @@ function SignUp() {
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField
-                                error={err.Address}
-                                helperText={
-                                    err.Address ? Address == "" ? "Address is required" : "" : ""
-                                }
-                                onChange={(e) => setAddress(e.target.value)}
-                                fullWidth
-                                variant="outlined"
-                                label="House No, Street, Address"
-                                size="small"
-                            />
-                            <p style={{ fontSize: "12px", color: "#808080", marginLeft: "5px" }}>(Pickup Address)</p>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                error={err.City}
-                                helperText={
-                                    err.City ? City == "" ? "City is required" : "" : ""
-                                }
-                                onChange={(e) => setCity(e.target.value)}
-                                fullWidth
-                                variant="outlined"
-                                label="City"
-                                size="small"
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                error={err.Pincode}
-                                helperText={
-                                    err.Pincode ? Pincode == "" ? "Pincode is required" : "" : ""
-                                }
-                                onChange={(e) => setPincode(e.target.value)}
-                                fullWidth
-                                variant="outlined"
-                                label="Pincode"
-                                size="small"
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                error={err.StoreName}
-                                helperText={
-                                    err.StoreName ? StoreName == "" ? "Store Name is required" : "" : ""
-                                }
-                                onChange={(e) => setStoreName(e.target.value)}
-                                fullWidth
-                                variant="outlined"
-                                label="Store Name"
-                                size="small"
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                error={err.UserName}
-                                helperText={
-                                    err.UserName ? UserName == "" ? "UserName is required" : errmsg.UserName : ""
-                                }
-                                onChange={(e) => setUserName(e.target.value)}
-                                fullWidth
-                                variant="outlined"
-                                label="User Name"
-                                size="small"
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
                             <TextField
                                 fullWidth
                                 error={err.Password}

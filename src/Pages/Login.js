@@ -38,7 +38,7 @@ function Login() {
 
     } else {
 
-      BASE_URL.post("/login", { UserName, Password }).then(res => {
+      BASE_URL.post("/login", { UserName, Password, Role: "Seller" }).then(res => {
         if (res.data.Status) {
           localStorage.setItem("token", res.data.Message[0].Token)
           localStorage.setItem("userid", res.data.Message[0]._id)

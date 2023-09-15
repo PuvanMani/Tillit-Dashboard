@@ -334,7 +334,7 @@ function Catelouge() {
                                 mb: "8px",
                             }}
                         >
-                            Your Price ( ₹ )
+                            Our Price ( ₹ )
                         </InputLabel>
                         <TextField
                             disabled={disable}
@@ -356,13 +356,13 @@ function Catelouge() {
                                 mb: "8px",
                             }}
                         >
-                            Our Commission ( ₹ )
+                            GST ( ₹ )
                         </InputLabel>
                         <TextField
                             disabled={true}
-                            value={Price ? ((Price * 10) / 100) : ""}
+                            value={Price ? ((Price * 5) / 100) : ""}
                             size="small"
-                            placeholder='10%'
+                            placeholder='5%'
                             variant="outlined"
                             fullWidth
                         />
