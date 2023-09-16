@@ -78,7 +78,7 @@ function SignUp() {
         } else {
             if (Number(otp) == OTP) {
                 setWrongOTP(false)
-                let data = { FullName, Email, Password, Role: "Seller", TermsAndCondition: Agree }
+                let data = { FullName, Email, Password, Role: "6505498970d526ae411c3698", TermsAndCondition: Agree }
                 BASE_URL.post("/signup", data).then(res => {
                     if (res.data.Status) {
                         Createalert("Account is")

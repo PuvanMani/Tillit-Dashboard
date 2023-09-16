@@ -15,84 +15,37 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 
 
 
-function Product() {
-    const [ProductList, setProductList] = useState([]);
-    const [listData, setlistData] = useState([]);
+function SubCategory() {
+    const [SubCategory, setSubCategory] = useState([]);
 
-    const todosPerPage = 4;
-
-    const changepage = (e, page) => {
-        let listdata = ProductList.slice((page - 1) * todosPerPage, (page - 1) * todosPerPage + todosPerPage);
-        setlistData(listdata)
-    }
-
-    const ListTask = () => {
-        BASE_URL.post("/product/list").then((res) => {
+    const ListSubCategory = () => {
+        BASE_URL.post("/subcategory/list").then((res) => {
             if (res.data.Status) {
-                setProductList([...res.data.Message]);
+                setSubCategory([...res.data.Message]);
             }
         });
     };
     const Delete = (id) => {
-        BASE_URL.post("/product/delete", { ProductID: id }).then((res) => {
-            let x = res.data.Status ? ListTask() : "";
+        BASE_URL.post("/subcategory/delete", { SubCategoryID: id }).then((res) => {
+            let x = res.data.Status ? ListSubCategory() : "";
         });
     };
     useEffect(() => {
-        ListTask();
-        let listdata = ProductList.slice((1 - 1) * todosPerPage, (1 - 1) * todosPerPage + todosPerPage);
-        setlistData(listdata)
+        ListSubCategory();
     }, []);
 
     const columns = [
+        // {
+        //     field: "Category",
+        //     headerName: "Category",
+        //     width: 300,
+        //     sortable: false,
+        // },
         {
             field: "Name",
             headerName: "Name",
-            width: 300,
+            flex: 1,
             sortable: false,
-        },
-        {
-            field: "Stock",
-            headerName: "Stocks",
-            width: 110,
-            sortable: false,
-            valueGetter: (params) => `${params?.value} kg`
-        },
-        {
-            field: "MarketPrice",
-            headerName: "Market Price",
-            width: 150,
-            sortable: false,
-            valueGetter: (params) => `₹ ${params?.value}`,
-        },
-        {
-            field: "OurPrice",
-            headerName: "Our Price",
-            headerAlign: "left",
-            filter: false,
-            align: "left",
-            width: 110,
-            sortable: false,
-            valueGetter: (params) => `₹ ${params?.value}`
-        },
-        {
-            field: "Discription",
-            headerName: "Discription",
-            headerAlign: "left",
-            filter: false,
-            align: "left",
-            width: 200,
-            sortable: false,
-        },
-        {
-            field: "NetQuantity",
-            headerName: "Net Quantity",
-            headerAlign: "left",
-            filter: false,
-            align: "left",
-            width: 150,
-            sortable: false,
-            valueGetter: (params) => `${params?.value} g`
         },
         {
             field: "Action",
@@ -103,12 +56,12 @@ function Product() {
                 <>
                     <IconButton>
                         <Tooltip title="View" arrow>
-                            <Link to={`/product/view/${params.row._id}`}><VisibilityIcon sx={{ color: '#5f49d3' }} /></Link>
+                            <Link to={`/subcategory/view/${params.row._id}`}><VisibilityIcon sx={{ color: '#5f49d3' }} /></Link>
                         </Tooltip>
                     </IconButton>
                     <IconButton>
                         <Tooltip title="Edit" arrow>
-                            <Link to={`/product/edit/${params.row._id}`}><BorderColorIcon sx={{ color: '#5f49d3' }} /></Link>
+                            <Link to={`/subcategory/edit/${params.row._id}`}><BorderColorIcon sx={{ color: '#5f49d3' }} /></Link>
                         </Tooltip>
                     </IconButton>
                     <IconButton
@@ -168,14 +121,14 @@ function Product() {
                             >
                                 Success Delivery
                             </Typography>
-                            <Link to='/product/create'><Button disableFocusRipple disableElevation sx={{ backgroundColor: "#085e15", color: "#FFF", ":hover": { backgroundColor: "#085e15", color: "#FFF" } }}>Add Product</Button></Link>
+                            <Link to='/subcategory/create'><Button disableFocusRipple disableElevation sx={{ backgroundColor: "#085e15", color: "#FFF", ":hover": { backgroundColor: "#085e15", color: "#FFF" } }}>Add Sub Category</Button></Link>
                         </Box>
                     </Box>
-                    <MyDataGrid columns={columns} rows={ProductList} id="_id" />
+                    <MyDataGrid columns={columns} rows={SubCategory} id="_id" />
                 </Box>
             </Grid>
         </Grid>
     )
 }
 
-export default Product
+export default SubCategory

@@ -2,11 +2,11 @@ import Dashboard from '../../Pages/dashboard';
 import Orders from '../../Pages/Orders';
 import ChangePassword from '../../Pages/changepassword';
 import { Navigate } from "react-router-dom";
-
-import NoTFound from "../../Pages/NotFound/notfound";
 import Product from '../../Pages/Product';
-import Catelouge from '../../Pages/Catelouge';
+
 import InvoiceTable from '../../Pages/Invoice';
+import Category from '../../Pages/Category';
+import SubCategory from '../../Pages/SubCategory';
 
 const PageRoute = [
   { name: "Home", path: "/dashboard", element: <Dashboard /> },
@@ -17,8 +17,9 @@ const PageRoute = [
   },
   { name: "Orders", path: "/orders", element: <Orders /> },
   { name: "Product", path: "/product", element: <Product /> },
-  { name: "Product", path: "/catelouge", element: <Catelouge /> },
   { name: "Invoice", path: "/invoice", element: <InvoiceTable /> },
+  { name: "Invoice", path: "/category", element: <Category /> },
+  { name: "Invoice", path: "/subcategory", element: <SubCategory /> },
   { name: "", path: "changepassword", element: <ChangePassword /> },
 ];
 

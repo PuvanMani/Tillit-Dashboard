@@ -31,8 +31,8 @@ function AddSubCategory() {
     //Create Function 
     const CreateData = () => {
         const data = {
-            Category,
-            SubCategoryName,
+            Category: CategoryID,
+            Name: SubCategoryName,
         }
         setLoad(true)
         let err = {
@@ -43,10 +43,10 @@ function AddSubCategory() {
         if (Object.values(err).some(val => val == true)) {
             setLoad(false)
         } else {
-            BASE_URL.post("/category/create", data).then(res => {
+            BASE_URL.post("/subcategory/create", data).then(res => {
                 if (res.data.Status) {
                     setLoad(false)
-                    nav('/product')
+                    nav('/subcategory')
                 }
             })
         }
@@ -58,8 +58,8 @@ function AddSubCategory() {
     // Update Function 
     const UpdateData = () => {
         const data = {
-            Category,
-            SubCategoryName,
+            Category: CategoryID,
+            Name: SubCategoryName,
         }
         setLoad(true)
         let err = {
@@ -70,10 +70,10 @@ function AddSubCategory() {
         if (Object.values(err).some(val => val == true)) {
             setLoad(false)
         } else {
-            BASE_URL.post("/category/update", data).then(res => {
+            BASE_URL.post("/subcategory/update", data).then(res => {
                 if (res.data.Status) {
                     setLoad(false)
-                    nav('/product')
+                    nav('/subcategory')
                 }
             })
         }
@@ -81,11 +81,18 @@ function AddSubCategory() {
 
 
     const ListById = () => {
-        const ProductID = params.id
-        BASE_URL.put("/product/listbyid", { ProductID }).then(res => {
+        BASE_URL.put("/subcategory/listbyid", { SubCategoryID: params.id }).then(res => {
             if (res.data.Status) {
-                setCategory(res.data.Message[0].Category ? res.data.Message[0].Category : "")
-                setSubCategoryName(res.data.Message[0].SubCategory ? res.data.Message[0].SubCategory : "")
+                setCategory(res.data.Message[0].Category.Category ? res.data.Message[0].Category.Category : "")
+                setSubCategoryName(res.data.Message[0].Name ? res.data.Message[0].Name : "")
+            }
+        })
+    }
+    const ListCategory = () => {
+        const ProductID = params.id
+        BASE_URL.put("/category/list", { ProductID }).then(res => {
+            if (res.data.Status) {
+                setListAllCategory([...res.data.Message])
             }
         })
     }
@@ -95,19 +102,18 @@ function AddSubCategory() {
             setCategoryID(value._id)
         }
     }
-    // useEffect(() => {
-    //     ListCategory()
-    //     if (params.action == "view") {
-    //         setDisable(true)
-    //         ListById()
-    //     } else if (params.action == "edit") {
-    //         ListById()
-    //     } else {
-    //         setCategoryName("")
-    //         setsubCategoryName("")
-    //         setImageURL("")
-    //     }
-    // }, [location.pathname])
+    useEffect(() => {
+        ListCategory()
+        if (params.action == "view") {
+            setDisable(true)
+            ListById()
+        } else if (params.action == "edit") {
+            ListById()
+        } else {
+            setCategory("")
+            setSubCategoryName("")
+        }
+    }, [location.pathname])
     return (
         <Box
             sx={{
@@ -175,7 +181,7 @@ function AddSubCategory() {
                 }}
             >
                 {params.action == "view" ? (
-                    <Link to="/product" style={{ textDecoration: "none" }}>
+                    <Link to="/subcategory" style={{ textDecoration: "none" }}>
                         {" "}
                         <Button
                             disableElevation
@@ -196,7 +202,7 @@ function AddSubCategory() {
                     </Link>
                 ) : params.action == "edit" ? (
                     <>
-                        <Link to="/product" style={{ textDecoration: "none" }}>
+                        <Link to="/subcategory" style={{ textDecoration: "none" }}>
                             {" "}
                             <Button
                                 disableElevation

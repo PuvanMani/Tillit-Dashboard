@@ -132,7 +132,7 @@ function Orders() {
                 component="h6"
                 style={{ fontSize: "16px", lineHeight: "29px", fontWeight: "500" }}
               >
-                Today Orderd
+                Today Orders
               </Typography>
               {/* <Link style={{ textDecoration: "none" }} to="/timesheet/create">
                 <Button
@@ -148,88 +148,6 @@ function Orders() {
                   Add Time Sheet
                 </Button>
               </Link> */}
-            </Box>
-          </Box>
-          <MyDataGrid columns={columns} rows={ListOrder} id="_id" />
-        </Box>
-      </Grid>
-      <Grid item xs={12}>
-        <Box
-          sx={{
-            background: "white",
-            width: "100%",
-            backgroundColor: "#FFF",
-            boxShadow: "0px 3px 4px rgba(0, 0, 0, 0.25)",
-            borderRadius: "10px",
-          }}
-        >
-          <Box
-            sx={{
-              width: "100%",
-              backgroundColor: "#FFF",
-              px: "20px",
-              boxShadow: "0px 2px 0px rgba(0, 0, 0, 0.25)",
-              borderTopRightRadius: "10px",
-              borderTopLeftRadius: "10px",
-            }}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                pt: "10px",
-                pb: "10px",
-                marginBottom: "2.5px",
-              }}
-            >
-              <Typography
-                component="h6"
-                style={{ fontSize: "16px", lineHeight: "29px", fontWeight: "500" }}
-              >
-                Return Orderd
-              </Typography>
-            </Box>
-          </Box>
-          <MyDataGrid columns={columns} rows={ListOrder} id="_id" />
-        </Box>
-      </Grid>
-      <Grid item xs={12}>
-        <Box
-          sx={{
-            background: "white",
-            width: "100%",
-            backgroundColor: "#FFF",
-            boxShadow: "0px 3px 4px rgba(0, 0, 0, 0.25)",
-            borderRadius: "10px",
-          }}
-        >
-          <Box
-            sx={{
-              width: "100%",
-              backgroundColor: "#FFF",
-              px: "20px",
-              boxShadow: "0px 2px 0px rgba(0, 0, 0, 0.25)",
-              borderTopRightRadius: "10px",
-              borderTopLeftRadius: "10px",
-            }}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                pt: "10px",
-                pb: "10px",
-                marginBottom: "2.5px",
-              }}
-            >
-              <Typography
-                component="h6"
-                style={{ fontSize: "16px", lineHeight: "29px", fontWeight: "500" }}
-              >
-                Success Delivery
-              </Typography>
             </Box>
           </Box>
           <MyDataGrid columns={columns} rows={ListOrder} id="_id" />

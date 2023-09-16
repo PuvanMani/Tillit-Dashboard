@@ -14,7 +14,6 @@ import { Link, useLocation } from "react-router-dom";
 import Logo from "../../Assets/Images/Tillit PNG.png";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { data } from '../../Assets/JSON/data'
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import CategoryIcon from '@mui/icons-material/Category';
 import InventoryIcon from '@mui/icons-material/Inventory';
@@ -25,7 +24,7 @@ export default function Sidebar({ op, setOp }) {
   const [colors, setColor] = useState(0);
   const [showChild, setShowChild] = useState(false);
   const [hovered, setHovered] = useState(null);
-  const [datas, setData1] = useState([]);
+  const [SidebarData, setSidebarData] = useState([]);
 
   // useEffect(() => {
   //   setData1(JSON.parse(localStorage.getItem("role")));
@@ -59,8 +58,8 @@ export default function Sidebar({ op, setOp }) {
       <Divider />
       <Box>
         <List sx={{ px: "8px" }}>
-          {data.length > 0
-            ? data?.map((text, index) => {
+          {SidebarData.length > 0
+            ? SidebarData?.map((text, index) => {
               return (
                 <>
                   <Link
@@ -96,7 +95,7 @@ export default function Sidebar({ op, setOp }) {
                       }}
                     >
                       <IconButton>
-                        {hovered == index || location.pathname == text.path ? (text.icon == "DashboardIcon" ? <DashboardIcon sx={{ color: "#FFF" }} /> : text.icon == "ShoppingCartCheckoutIcon" ? <ShoppingCartCheckoutIcon sx={{ color: "#FFF" }} /> : text.icon == "InventoryIcon" ? <InventoryIcon sx={{ color: "#FFF" }} /> : text.icon == "CategoryIcon" ? <CategoryIcon sx={{ color: "#FFF" }} /> : text.icon == "TextSnippetIcon" ? <TextSnippetIcon sx={{ color: "#FFF" }} /> : "")
+                        {hovered == index || location.pathname.includes(text.path) ? (text.icon == "DashboardIcon" ? <DashboardIcon sx={{ color: "#FFF" }} /> : text.icon == "ShoppingCartCheckoutIcon" ? <ShoppingCartCheckoutIcon sx={{ color: "#FFF" }} /> : text.icon == "InventoryIcon" ? <InventoryIcon sx={{ color: "#FFF" }} /> : text.icon == "CategoryIcon" ? <CategoryIcon sx={{ color: "#FFF" }} /> : text.icon == "TextSnippetIcon" ? <TextSnippetIcon sx={{ color: "#FFF" }} /> : "")
                           : (text.icon == "DashboardIcon" ? <DashboardIcon sx={{ color: "#464646" }} /> : text.icon == "ShoppingCartCheckoutIcon" ? <ShoppingCartCheckoutIcon sx={{ color: "#464646" }} /> : text.icon == "InventoryIcon" ? <InventoryIcon sx={{ color: "#464646" }} /> : text.icon == "CategoryIcon" ? <CategoryIcon sx={{ color: "#464646" }} /> : text.icon == "TextSnippetIcon" ? <TextSnippetIcon sx={{ color: "#464646" }} /> : "")}
                       </IconButton>
                       <ListItemText className="sidebar">
@@ -114,6 +113,13 @@ export default function Sidebar({ op, setOp }) {
       </Box>
     </Drawer>
   );
+
+
+
+
+  useEffect(() => {
+    setSidebarData([...JSON.parse(localStorage.getItem("role"))])
+  }, [])
   return (
     <Box>
       {drawer}
@@ -137,7 +143,7 @@ export default function Sidebar({ op, setOp }) {
         {/* <Divider /> */}
         <Box>
           <List sx={{ px: "5px" }}>
-            {data?.map((text, index) => {
+            {SidebarData?.map((text, index) => {
               return (
                 <>
                   <Link

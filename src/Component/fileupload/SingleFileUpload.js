@@ -4,16 +4,15 @@ import React, { useState, useRef } from "react";
 import { TextField, Autocomplete, autocompleteClasses } from "@mui/material";
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
 
-export default function SingleFileUpoload({ setImageURL, ErrorObj, disable }) {
+export default function SingleFileUpoload({ setImageURL, setImageName, ImageName, ErrorObj, disable }) {
     const fileInputRef = useRef(null);
-    const [DocumentName, setDocumentName] = useState("")
     const handleFileInputChange = (event) => {
         return new Promise((resolve, reject) => {
             const file = event.target.files[0];
             const reader = new FileReader();
 
             reader.onload = () => {
-                setDocumentName(event.target.files["0"].name)
+                setImageName(event.target.files["0"].name)
                 const base64 = reader.result;
                 resolve(base64);
             };
@@ -51,7 +50,7 @@ export default function SingleFileUpoload({ setImageURL, ErrorObj, disable }) {
                 readOnly
                 options={[]}
                 disabled={disable}
-                value={DocumentName}
+                value={ImageName}
                 popupIcon={<FileUploadOutlinedIcon sx={{ color: '#5E6366' }} />}
                 filterSelectedOptions
                 renderInput={(params) => (
@@ -59,7 +58,7 @@ export default function SingleFileUpoload({ setImageURL, ErrorObj, disable }) {
                         {...params}
                         size="small"
                         fullWidth
-                        value={DocumentName}
+                        value={ImageName}
                         onClick={handleTextFieldClick}
                         error={ErrorObj["ImageUrl"]}
                         helperText={ErrorObj["ImageUrl"] ? `Image is required` : ""}

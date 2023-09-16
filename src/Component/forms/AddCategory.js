@@ -7,13 +7,12 @@ import { LoadingButton } from '@mui/lab';
 import SingleFileUpoload from '../fileupload/SingleFileUpload';
 
 function AddCategory() {
-    const [CatgoryName, setCatgoryName] = useState("");
-    const [SubCatgoryName, setSubCatgoryName] = useState("");
+    const [Category, setCategory] = useState("");
     const [ImageURL, setImageURL] = useState("");
+    const [ImageName, setImageName] = useState("");
 
     const [errObj, setErrObj] = useState({
-        CatgoryName: false,
-        SubCatgoryName: false,
+        Category: false,
         ImageURL: false,
     });
     const [disable, setDisable] = useState(false);
@@ -29,14 +28,13 @@ function AddCategory() {
     //Create Function 
     const CreateData = () => {
         const data = {
-            CatgoryName,
-            SubCatgoryName,
+            Category,
             ImageURL,
+            ImageName
         }
         setLoad(true)
         let err = {
-            CatgoryName: CatgoryName.trim() == "",
-            SubCatgoryName: SubCatgoryName.trim() == "",
+            Category: Category.trim() == "",
             ImageURL: ImageURL.trim == "",
         }
         setErrObj(err)
@@ -46,7 +44,7 @@ function AddCategory() {
             BASE_URL.post("/category/create", data).then(res => {
                 if (res.data.Status) {
                     setLoad(false)
-                    nav('/product')
+                    nav('/category')
                 }
             })
         }
@@ -58,14 +56,14 @@ function AddCategory() {
     // Update Function 
     const UpdateData = () => {
         const data = {
-            CatgoryName,
-            SubCatgoryName,
+            _id: params.id,
+            Category,
             ImageURL,
+            ImageName
         }
         setLoad(true)
         let err = {
-            CatgoryName: CatgoryName.trim() == "",
-            SubCatgoryName: SubCatgoryName.trim() == "",
+            Category: Category.trim() == "",
             ImageURL: ImageURL.trim == "",
         }
         setErrObj(err)
@@ -75,7 +73,7 @@ function AddCategory() {
             BASE_URL.post("/category/update", data).then(res => {
                 if (res.data.Status) {
                     setLoad(false)
-                    nav('/product')
+                    nav('/category')
                 }
             })
         }
@@ -83,29 +81,28 @@ function AddCategory() {
 
 
     const ListById = () => {
-        const ProductID = params.id
-        BASE_URL.put("/product/listbyid", { ProductID }).then(res => {
+        const CategoryID = params.id
+        BASE_URL.put("/category/listbyid", { CategoryID }).then(res => {
             if (res.data.Status) {
-                setCatgoryName(res.data.Message[0].Category ? res.data.Message[0].Category : "")
-                setSubCatgoryName(res.data.Message[0].SubCategory ? res.data.Message[0].SubCategory : "")
+                setCategory(res.data.Message[0].Category ? res.data.Message[0].Category : "")
                 setImageURL(res.data.Message[0].ImageURL ? res.data.Message[0].ImageURL : "")
+                setImageName(res.data.Message[0].ImageName ? res.data.Message[0].ImageName : "")
             }
         })
     }
 
-    // useEffect(() => {
-    //     ListCategory()
-    //     if (params.action == "view") {
-    //         setDisable(true)
-    //         ListById()
-    //     } else if (params.action == "edit") {
-    //         ListById()
-    //     } else {
-    //         setCatgoryName("")
-    //         setsubCatgoryName("")
-    //         setImageURL("")
-    //     }
-    // }, [location.pathname])
+    useEffect(() => {
+        // ListCategory()
+        if (params.action == "view") {
+            setDisable(true)
+            ListById()
+        } else if (params.action == "edit") {
+            ListById()
+        } else {
+            setCategory("")
+            setImageURL("")
+        }
+    }, [location.pathname])
     return (
         <Box
             sx={{
@@ -121,7 +118,7 @@ function AddCategory() {
             <Divider sx={{ mt: "10px" }} />
             <Box>
                 <Grid container spacing={2} justifyContent="center" sx={{ my: "10px" }}>
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={12} sm={6}>
                         <InputLabel
                             sx={{
                                 color: "#5E6366",
@@ -133,39 +130,17 @@ function AddCategory() {
                         </InputLabel>
                         <TextField
                             disabled={disable}
-                            value={CatgoryName}
-                            onChange={(e) => setCatgoryName(e.target.value)}
+                            value={Category}
+                            onChange={(e) => setCategory(e.target.value)}
                             size="small"
-                            error={errObj["CatgoryName"]}
-                            helperText={errObj["CatgoryName"] ? "CatgoryName is required" : ""}
+                            error={errObj["Category"]}
+                            helperText={errObj["Category"] ? "Category is required" : ""}
                             placeholder="Vegitables"
                             variant="outlined"
                             fullWidth
                         />
                     </Grid>
-                    <Grid item xs={12} md={6}>
-                        <InputLabel
-                            sx={{
-                                color: "#5E6366",
-                                fontSize: "14px !important",
-                                mb: "8px",
-                            }}
-                        >
-                            Sub Catgory Name
-                        </InputLabel>
-                        <TextField
-                            disabled={disable}
-                            value={SubCatgoryName}
-                            onChange={(e) => setSubCatgoryName(e.target.value)}
-                            size="small"
-                            error={errObj["SubCatgoryName"]}
-                            helperText={errObj["SubCatgoryName"] ? "Sub Catgory Name is required" : ""}
-                            placeholder="Tomato"
-                            variant="outlined"
-                            fullWidth
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} sm={6}>
                         <InputLabel
                             sx={{
                                 color: "#5E6366",
@@ -175,7 +150,7 @@ function AddCategory() {
                         >
                             Upload Photo
                         </InputLabel>
-                        <SingleFileUpoload disable={disable} setImageURL={setImageURL} ErrorObj={errObj} />
+                        <SingleFileUpoload disable={disable} setImageURL={setImageURL} ImageName={ImageName} setImageName={setImageName} ErrorObj={errObj} />
                     </Grid>
                 </Grid>
             </Box>
@@ -187,7 +162,7 @@ function AddCategory() {
                 }}
             >
                 {params.action == "view" ? (
-                    <Link to="/product" style={{ textDecoration: "none" }}>
+                    <Link to="/category" style={{ textDecoration: "none" }}>
                         {" "}
                         <Button
                             disableElevation
@@ -208,7 +183,7 @@ function AddCategory() {
                     </Link>
                 ) : params.action == "edit" ? (
                     <>
-                        <Link to="/product" style={{ textDecoration: "none" }}>
+                        <Link to="/category" style={{ textDecoration: "none" }}>
                             {" "}
                             <Button
                                 disableElevation
@@ -249,7 +224,7 @@ function AddCategory() {
                     </>
                 ) : (
                     <>
-                        <Link to="/" style={{ textDecoration: "none" }}>
+                        <Link to="/category" style={{ textDecoration: "none" }}>
                             {" "}
                             <Button
                                 disableElevation

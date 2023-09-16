@@ -2,13 +2,11 @@ import { Autocomplete, Button, Dialog, Divider, Grid, InputLabel, TextField, Typ
 import { Box, Stack } from '@mui/system'
 import React, { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
-import save from '../Assets/Images/Completed successfully.png'
-import { BASE_URL } from '../Config/Config';
+import { BASE_URL } from '../../Config/Config';
 import { LoadingButton } from '@mui/lab';
-import SingleFileUpoload from '../Component/fileupload/SingleFileUpload'
-import MultiFileUpoload from '../Component/fileupload/MultiFileUpoload'
+import MultiFileUpoload from '../fileupload/MultiFileUpoload'
 
-function Catelouge() {
+function AddProduct() {
 
     const [Category, setCategory] = useState("");
     const [CategoryID, setCategoryID] = useState("");
@@ -42,16 +40,12 @@ function Catelouge() {
     const location = useLocation()
     const nav = useNavigate()
 
-
-
-    const [dial, setDial] = useState(false);
-
     const handleCategoryChange = (e, value) => {
         if (value != null) {
             setCategory(value.Category)
             setCategoryID(value._id)
             setName("")
-            BASE_URL.post('/subcategory/listbyid', { CategoryID: value._id }).then(res => {
+            BASE_URL.post('/subcategory/subcategorylist', { CategoryID: value._id }).then(res => {
                 if (res.data.Status) {
                     setListAllSubCategory([...res.data.Message])
                 } else {
@@ -82,7 +76,7 @@ function Catelouge() {
             Category: CategoryID,
             Name,
             MarketPrice: Number(MarketPrice),
-            YourPrice: Number(Price),
+            OurPrice: Number(Price),
             Stock: Number(Stock),
             Discription,
             CreatedDate: new Date().toLocaleDateString(),
@@ -124,16 +118,14 @@ function Catelouge() {
             Category: CategoryID,
             Name,
             MarketPrice: Number(MarketPrice),
-            YourPrice: Number(Price),
+            OurPrice: Number(Price),
             Stock: Number(Stock),
             Discription,
-            UpdatedDate: new Date().toLocaleDateString(),
             NetQuantity: Number(NetQuantity),
             ImageURL,
         }
         setLoad(true)
         let err = {
-
             Category: CategoryID == "",
             Name: Name.trim() == "",
             Stock: Stock == "",
@@ -171,13 +163,14 @@ function Catelouge() {
     const ListById = () => {
         const ProductID = params.id
         BASE_URL.put("/product/listbyid", { ProductID }).then(res => {
+            console.log(res.data)
             if (res.data.Status) {
                 setStock(res.data.Message[0].Stock ? res.data.Message[0].Stock : "")
                 setCategory(res.data.Message[0].category.Category ? res.data.Message[0].category.Category : "")
                 setCategoryID(res.data.Message[0].Category ? res.data.Message[0].Category : "")
                 setName(res.data.Message[0].Name ? res.data.Message[0].Name : "")
                 setMarketPrice(res.data.Message[0].MarketPrice ? res.data.Message[0].MarketPrice : "")
-                setPrice(res.data.Message[0].YourPrice ? res.data.Message[0].YourPrice : "")
+                setPrice(res.data.Message[0].OurPrice ? res.data.Message[0].OurPrice : "")
                 setDiscription(res.data.Message[0].Discription ? res.data.Message[0].Discription : "")
                 setNetQuantity(res.data.Message[0].NetQuantity ? res.data.Message[0].NetQuantity : "")
                 setImageURL(res.data.Message[0].ImageURL ? res.data.Message[0].ImageURL : "")
@@ -495,7 +488,7 @@ function Catelouge() {
                     </>
                 ) : (
                     <>
-                        <Link to="/" style={{ textDecoration: "none" }}>
+                        <Link to="/product" style={{ textDecoration: "none" }}>
                             {" "}
                             <Button
                                 disableElevation
@@ -536,42 +529,10 @@ function Catelouge() {
                         </LoadingButton>
                     </>
                 )}
-                <Dialog open={dial} fullWidth>
-                    <Box sx={{ display: "flex", justifyContent: "center" }}>
-                        <img src={save}></img>
-                    </Box>
-                    <Typography
-                        variant="h5"
-                        component="h5"
-                        sx={{
-                            textAlign: "center",
-                            fontWeight: "500",
-                            my: "20px",
-                            lineHeight: "29px",
-                        }}
-                    >
-                        Time Sheet added successfully
-                    </Typography>
-                    <Box sx={{ textAlign: "center", p: "20px" }}>
-                        <Button
-                            disableElevation
-                            style={{
-                                backgroundColor: "#085e15",
-                                textDecoration: "none",
-                                textTransform: "none",
-                                borderRadius: "3px",
-                            }}
-                            variant="contained"
-                            onClick={() => nav("/timesheet", { replace: true })}
-                        >
-                            {" "}
-                            Ok
-                        </Button>
-                    </Box>
-                </Dialog>
+
             </Stack>
         </Box>
     );
 }
 
-export default Catelouge;
+export default AddProduct;

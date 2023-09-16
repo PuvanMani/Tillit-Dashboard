@@ -17,20 +17,20 @@ import IconButton from "@mui/material/IconButton";
 
 function Login() {
   const nav = useNavigate();
-  const [UserName, setUserName] = useState("");
+  const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
   const [pass, setPass] = useState(true);
   const [err, setErr] = useState({
-    UserName: false,
+    Email: false,
     Password: false,
   });
   const [errmsg, setErrmsg] = useState({
-    UserName: "User Name Not Found",
+    Email: "Email Not Found",
     Password: "Check Your Password",
   });
   const onSubmit = () => {
     const err = {
-      UserName: UserName == "",
+      Email: Email == "",
       Password: Password == "",
     };
     setErr(err);
@@ -38,31 +38,32 @@ function Login() {
 
     } else {
 
-      BASE_URL.post("/login", { UserName, Password, Role: "Seller" }).then(res => {
+      BASE_URL.post("/login", { Email, Password, RoleID: "6505498970d526ae411c3698" }).then(res => {
         if (res.data.Status) {
-          localStorage.setItem("token", res.data.Message[0].Token)
+          localStorage.setItem("token", res.data.Message[1].Token)
           localStorage.setItem("userid", res.data.Message[0]._id)
-          localStorage.setItem("role", res.data.Message[0].Role)
-          localStorage.setItem("username", res.data.Message[0].UserName)
-          localStorage.setItem("name", (res.data.Message[0].FirstName + " " + res.data.Message[0].LastName))
+          localStorage.setItem("role", JSON.stringify(res.data.Message[0].Role.Role))
+          localStorage.setItem("rolename", res.data.Message[0].Role.RoleName)
+          localStorage.setItem("email", res.data.Message[0].Email)
+          localStorage.setItem("name", (res.data.Message[0].FullName))
           BASE_URL.create({
             headers: {
-              username: UserName, token: localStorage.getItem("token")
+              email: res.data.Message[0].Email, token: res.data.Message[1].Token
             }
           })
           nav("/dashboard", { replace: true });
 
         } else {
-          if (res.data.Message == "UserName Not Found") {
+          if (res.data.Message == "Email Not Found") {
             const err = {
-              UserName: true,
+              Email: true,
               Password: false,
             };
             setErr(err);
           }
           else if (res.data.Message == "Wrong Password") {
             const err = {
-              UserName: false,
+              Email: false,
               Password: true,
             };
             setErr(err);
@@ -114,12 +115,12 @@ function Login() {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
-                error={err.UserName}
-                helperText={err.UserName ? (UserName == "" ? "UserName is required" : errmsg.UserName) : ""}
-                onChange={(e) => setUserName(e.target.value)}
+                error={err.Email}
+                helperText={err.Email ? (Email == "" ? "Email is required" : errmsg.Email) : ""}
+                onChange={(e) => setEmail(e.target.value)}
                 fullWidth
                 variant="outlined"
-                label="User Name"
+                label="Email"
                 size="small"
               />
             </Grid>

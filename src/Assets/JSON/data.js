@@ -6,33 +6,28 @@ export const data = [
     "icon": "DashboardIcon"
   },
   {
+    "name": "Products",
+    "path": "/product",
+    "icon": "CategoryIcon"
+  },
+  {
+    "name": "Category",
+    "path": "/category",
+    "icon": "TextSnippetIcon"
+  },
+  {
+    "name": "Sub Category",
+    "path": "/subcategory",
+    "icon": "TextSnippetIcon"
+  },
+  {
     "name": "Orders",
     "path": "/orders",
     "icon": "ShoppingCartCheckoutIcon"
-  },
-  {
-    "name": "Products",
-    "path": "/product",
-    "icon": "InventoryIcon"
-  },
-  {
-    "name": "Catelouge",
-    "path": "/catelouge",
-    "icon": "CategoryIcon"
   },
   {
     "name": "Invoice",
     "path": "/invoice",
     "icon": "TextSnippetIcon"
   },
-  {
-    "name": "Category",
-    "path": "/category/create",
-    "icon": "TextSnippetIcon"
-  },
-  {
-    "name": "Sub Category",
-    "path": "/subcategory/create",
-    "icon": "TextSnippetIcon"
-  }
 ]
