@@ -18,12 +18,8 @@ function AddBanner() {
     });
     const [disable, setDisable] = useState(false);
 
-    const params = useParams()
-
 
     const [load, setLoad] = useState(false);
-
-    const location = useLocation()
     const nav = useNavigate()
 
     //Create Function 
@@ -36,7 +32,7 @@ function AddBanner() {
         setLoad(true)
         let err = {
             MainBanner: MainBanner.trim() == "",
-            MiniBanner: MiniBanner.trim == "",
+            MiniBanner: MiniBanner.length == 0,
         }
         setErrObj(err)
         if (Object.values(err).some(val => val == true)) {
@@ -45,7 +41,7 @@ function AddBanner() {
             BASE_URL.post("/banner/create", data).then(res => {
                 if (res.data.Status) {
                     setLoad(false)
-                    nav('/')
+                    nav('/banner')
                 }
             })
         }
@@ -75,7 +71,7 @@ function AddBanner() {
                                 mb: "8px",
                             }}
                         >
-                            MainBanner Name
+                            Main Banner
                         </InputLabel>
 
                         <SingleFileUpoload disable={disable} setImageURL={setMainBanner} ImageName={ImageName} setImageName={setImageName} ErrorObj={errObj} />
@@ -88,7 +84,7 @@ function AddBanner() {
                                 mb: "8px",
                             }}
                         >
-                            Upload Photo
+                            Offers Banner
                         </InputLabel>
                         <MultiFileUpoload ImageURL={MiniBanner} setImageURL={setMiniBanner} ErrorObj={errObj} disable={disable} />
                     </Grid>

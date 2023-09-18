@@ -52,6 +52,7 @@ function Login() {
             }
           })
           nav("/dashboard", { replace: true });
+          window.location.reload();
 
         } else {
           if (res.data.Message == "Email Not Found") {

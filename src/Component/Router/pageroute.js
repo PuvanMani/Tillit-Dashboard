@@ -7,6 +7,7 @@ import Product from '../../Pages/Product';
 import InvoiceTable from '../../Pages/Invoice';
 import Category from '../../Pages/Category';
 import SubCategory from '../../Pages/SubCategory';
+import Banner from '../../Pages/Banner';
 
 const PageRoute = [
   { name: "Home", path: "/dashboard", element: <Dashboard /> },
@@ -20,6 +21,7 @@ const PageRoute = [
   { name: "Invoice", path: "/invoice", element: <InvoiceTable /> },
   { name: "Invoice", path: "/category", element: <Category /> },
   { name: "Invoice", path: "/subcategory", element: <SubCategory /> },
+  { name: "Invoice", path: "/banner", element: <Banner /> },
   { name: "", path: "changepassword", element: <ChangePassword /> },
 ];
 
